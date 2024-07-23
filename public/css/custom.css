@@ -1,0 +1,32 @@
+input.is-invalid {
+    border-color: red !important;
+}
+.invalid-feedback {
+    display: block;
+    font-size: 90%;
+}
+.admin-img{
+    width: 12%;
+}
+.header-main-menu .navbar-nav .header-admin .navbar-nav-link .admin-img img {
+    width: 307px;
+}
+.header-main-menu .navbar-nav .header-admin .navbar-nav-link .admin-title {
+    width: 100%;
+}
+.dashboard-card-ten .card-body .student-info .media .item-img {
+    background-color: #ffffff00;
+}
+.select2-container .select2-selection--single {
+    height: auto !important;
+}
+.select2-container .select2-selection--single .select2-selection__rendered {
+    line-height: 50px !important;
+}
+span.required{
+    color: red;
+}
+.account-settings-box .user-details-box .item-img {
+    width: 300px;
+    text-align: center;
+}
