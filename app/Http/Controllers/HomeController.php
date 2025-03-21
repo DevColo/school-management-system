@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Auth;
-use DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -32,6 +32,11 @@ class HomeController extends Controller
                 ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
                 ->where('roles.name','student')
                 ->where('users.status',1)
+                ->count();
+
+            // total classes
+            $classes_count = DB::table('classes')
+                ->where('status',1)
                 ->count();
 
             // total librarian
@@ -63,7 +68,7 @@ class HomeController extends Controller
             // user detail
             $user_detail = DB::table('user_detail')->where('user_id',Auth::user()->id)->get();
 
-            return view('home',compact('student_count','librarian_count','total_admins','user_detail'));
+            return view('home',compact('student_count','classes_count','librarian_count','total_admins','user_detail'));
         }else{
             abort(403, 'Unauthorized access.');
         }

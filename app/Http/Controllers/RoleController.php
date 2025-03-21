@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
 use App\Models\User;
-use Validator;
 use Redirect;
-use Auth;
-use DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class RoleController extends Controller
 {

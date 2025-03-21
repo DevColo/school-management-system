@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('img/rkps.jpg') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('img/skoology-black.png') }}">
     <!-- Normalize CSS -->
     <link rel="stylesheet" href="{{ asset('css/normalize.css') }}">
     <!-- Main CSS -->
@@ -18,7 +18,7 @@
     <!-- Fontawesome CSS -->
     <link rel="stylesheet" href="{{ asset('css/all.min.css') }}">
     <!-- Flaticon CSS -->
-    <link rel="stylesheet" href="{{ asset('fonts/flaticon.css') }}">
+    <link rel="stylesheet" href="fonts/flaticon.css') }}">
     <!-- Animate CSS -->
     <link rel="stylesheet" href="{{ asset('css/animate.min.css') }}">
     <!-- Custom CSS -->
@@ -37,7 +37,7 @@
         <div class="login-page-content">
             <div class="login-box">
                 <div class="item-logo">
-                    <img width="100px" height="100px" src="{{ asset('img/rkps.png') }}" alt="logo">
+                    <img width="250px" height="150px" src="{{ asset('img/skoology-black.png') }}" alt="logo">
                 </div>
                 <form method="POST" action="{{ route('login') }}" class="login-form">
                     @csrf
@@ -64,8 +64,8 @@
                     </div>
                     <div class="form-group d-flex align-items-center justify-content-between">
                         <div class="form-check">
-                           <!--  <input type="checkbox" class="form-check-input" id="remember-me" name="remember" {{ old('remember') ? 'checked' : '' }}>
-                            <label for="remember-me" class="form-check-label">Remember Me</label> -->
+                            <input type="checkbox" class="form-check-input" id="remember-me" name="remember" {{ old('remember') ? 'checked' : '' }}>
+                            <label for="remember-me" class="form-check-label">Remember Me</label>
                         </div>
                         <a href="#"  data-toggle="modal" data-target="#forget-password" class="forgot-btn ">Forgot Password?</a>
                     </div>

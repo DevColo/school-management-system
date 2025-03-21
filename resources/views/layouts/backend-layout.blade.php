@@ -10,7 +10,7 @@
     <!-- Normalize CSS -->
     <link rel="stylesheet" href="{{ asset('css/normalize.css') }}" />
     <!-- School Logo -->
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('img/schooLogo.jpeg') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('img/skoology-black.png') }}">
     <!-- Main CSS -->
     <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
     <!-- Bootstrap CSS -->
@@ -44,7 +44,7 @@
               <img
                 width="160px"
                 height="100px"
-                src="{{ asset('img/schooLogo.jpeg') }}"
+                src="{{ asset('img/skoology-white.png') }}"
                 alt="logo"
               />
             </a>
@@ -286,21 +286,6 @@
                 </div>
               </div>
             </li>
-            <li class="navbar-item dropdown header-language">
-              <a
-                class="navbar-nav-link dropdown-toggle"
-                href="#"
-                role="button"
-                data-toggle="dropdown"
-                aria-expanded="false"
-                ><i class="fas fa-globe-americas"></i>EN</a
-              >
-              <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item" href="#">English</a>
-
-                <a class="dropdown-item" href="#">French</a>
-              </div>
-            </li>
           </ul>
         </div>
       </div>
@@ -321,27 +306,10 @@
           </div>
           <div class="sidebar-menu-content">
             <ul class="nav nav-sidebar-menu sidebar-toggle-view">
-              <li class="nav-item sidebar-nav-item">
-                <a href="#" class="nav-link"
+              <li class="nav-item">
+                <a href="{{ route('home') }}" class="nav-link"
                   ><i class="flaticon-dashboard"></i><span>Dashboard</span></a
                 >
-                <ul class="nav sub-group-menu sub-group-active">
-                  <li class="nav-item">
-                    <a href="index.html" class="nav-link menu-active"
-                      >Admin</a
-                    >
-                  </li>
-                  <li class="nav-item">
-                    <a href="student.html" class="nav-link"
-                      >Students</a
-                    >
-                  </li>
-                  <li class="nav-item">
-                    <a href="librarian.html" class="nav-link"
-                      >Librarian</a
-                    >
-                  </li>
-                </ul>
               </li>
               <li class="nav-item sidebar-nav-item">
                 <a href="#" class="nav-link"
@@ -366,19 +334,13 @@
                 >
                 <ul class="nav sub-group-menu">
                   <li class="nav-item">
-                    <a href="all-student.html" class="nav-link"
-                      >All Students</a
-                    >
-                  </li>
-           
-                  <li class="nav-item">
-                    <a href="admit-form.html" class="nav-link"
-                      >Add Students</a
+                    <a href="{{ route('add-student') }}" class="nav-link"
+                      >Add Student</a
                     >
                   </li>
                   <li class="nav-item">
-                    <a href="student-promotion.html" class="nav-link"
-                      >Student Promotion</a
+                    <a href="{{ route('admin-list') }}" class="nav-link"
+                      >Admin List</a
                     >
                   </li>
                 </ul>
@@ -427,35 +389,74 @@
 
               <li class="nav-item sidebar-nav-item">
                 <a href="#" class="nav-link"
-                  ><i class="fa fa-globe"></i><span>Academic Year</span></a
+                  ><i class="fa fa-globe"></i><span>Manage Years</span></a
                 >
                 <ul class="nav sub-group-menu">
-                  <li class="nav-item">
-                    <a href="all-academic-year.html" class="nav-link"
-                      >All Academic Year</a
+                   <li class="nav-item">
+                    <a href="{{ route('add-year') }}" class="nav-link"
+                      >Add Academic Year</a
                     >
                   </li>
                   <li class="nav-item">
-                    <a href="add-academic-year" class="nav-link"
-                      >Add Academic Year</a
+                    <a href="{{ route('year-list') }}" class="nav-link"
+                      >View Academic Years</a
                     >
                   </li>
                 </ul>
               </li>
-              <!-- Class -->
+
+              <!-- Semester -->
               <li class="nav-item sidebar-nav-item">
                 <a href="#" class="nav-link"
-                  ><i class="fa fa-users"></i><span>Class</span></a
+                  ><i class="fa fa-star-half"></i><span>Manage Semesters</span></a
                 >
                 <ul class="nav sub-group-menu">
                   <li class="nav-item">
-                    <a href="all-subject.html" class="nav-link"
-                      >All Classes</a
+                    <a href="{{ route('add-semester') }}" class="nav-link"
+                      >Add New Semester</a
                     >
                   </li>
                   <li class="nav-item">
-                    <a href="add-subject.html" class="nav-link"
-                      >Add New Class</a
+                    <a href="{{ route('semester-list') }}" class="nav-link"
+                      >View Semesters</a
+                    >
+                  </li>
+                </ul>
+              </li>
+
+              <!-- Period -->
+              <li class="nav-item sidebar-nav-item">
+                <a href="#" class="nav-link"
+                  ><i class="flaticon-open-book"></i><span>Manage Periods</span></a
+                >
+                <ul class="nav sub-group-menu">
+                  <li class="nav-item">
+                    <a href="{{ route('add-period') }}" class="nav-link"
+                      >Add New Period</a
+                    >
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{ route('period-list') }}" class="nav-link"
+                      >View Periods</a
+                    >
+                  </li>
+                </ul>
+              </li>
+
+              <!-- Class -->
+              <li class="nav-item sidebar-nav-item">
+                <a href="#" class="nav-link"
+                  ><i class="fa fa-users"></i><span>Manage Classes</span></a
+                >
+                <ul class="nav sub-group-menu">
+                  <li class="nav-item">
+                    <a href="{{ route('add-class') }}" class="nav-link"
+                      >Add Class</a
+                    >
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{ route('class-list') }}" class="nav-link"
+                      >View Classes</a
                     >
                   </li>
                 </ul>
@@ -468,51 +469,13 @@
                 >
                 <ul class="nav sub-group-menu">
                   <li class="nav-item">
-                    <a href="all-subject.html" class="nav-link"
-                      >All Subjects</a
-                    >
-                  </li>
-                  <li class="nav-item">
-                    <a href="add-subject.html" class="nav-link"
+                    <a href="{{ route('add-subject') }}" class="nav-link"
                       >Add New Subject</a
                     >
                   </li>
-                </ul>
-              </li>
-
-              <!-- Semester -->
-              <li class="nav-item sidebar-nav-item">
-                <a href="#" class="nav-link"
-                  ><i class="fa fa-star-half"></i><span>Semester</span></a
-                >
-                <ul class="nav sub-group-menu">
                   <li class="nav-item">
-                    <a href="all-semesters.html" class="nav-link"
-                      >All Semester</a
-                    >
-                  </li>
-                  <li class="nav-item">
-                    <a href="add-semester.html" class="nav-link"
-                      >Add New Semesters</a
-                    >
-                  </li>
-                </ul>
-              </li>
-
-              <!-- Period -->
-              <li class="nav-item sidebar-nav-item">
-                <a href="#" class="nav-link"
-                  ><i class="flaticon-open-book"></i><span>Period</span></a
-                >
-                <ul class="nav sub-group-menu">
-                  <li class="nav-item">
-                    <a href="all-periods.html" class="nav-link"
-                      >All Periods</a
-                    >
-                  </li>
-                  <li class="nav-item">
-                    <a href="add-period.html" class="nav-link"
-                      >Add New Period</a
+                    <a href="{{ route('subject-list') }}" class="nav-link"
+                      >View Subjects</a
                     >
                   </li>
                 </ul>
@@ -646,10 +609,6 @@
         
          
           <footer class="footer-wrap-layout1">
-            <div class="copyright">
-              © Copyrights <a href="#">CodeET School</a> 2023. All rights reserved.
-              Designed by <a href="#">CodeET Developers</a>
-            </div>
           </footer>
           <!-- Footer Area End Here -->
         </div>
@@ -679,6 +638,7 @@
     <!-- Validate Js -->
     <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
     <!-- Custom Js -->
+    <script src="{{ asset('js/custom.js') }}"></script>
     @yield('js')
     <script src="{{ asset('js/main.js') }}"></script>
   </body>

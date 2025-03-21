@@ -78,6 +78,25 @@ Dashboard
                 </div>
               </div>
             </div>
+            <div class="col-xl-4 col-12 col-18">
+              <div class="dashboard-summery-one mg-b-20">
+                <div class="row align-items-center">
+                  <div class="col-6">
+                    <div class="item-icon bg-light-red">
+                      <i class="flaticon-checklist text-red text-center"></i>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="item-content">
+                      <div class="item-title">Classes</div>
+                      <div class="item-number">
+                        <span class="counter" data-num="{{$classes_count ?? ''}}">{{$classes_count ?? ''}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           
           </div>
           <!-- Dashboard summery End Here -->

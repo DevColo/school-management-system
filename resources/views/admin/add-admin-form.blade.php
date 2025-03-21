@@ -20,8 +20,8 @@ Add New Admin
                         </ul>
                     </div>
                     <div class="breadcrumbs-area">
-                        <a href="{{ route('user-profile') }}">
-                            <button type="button" class="btn-fill-md text-light bg-dark-pastel-green">
+                        <a href="{{ route('admin-list') }}">
+                            <button type="button" class="btn-fill-md radius-30 text-light shadow-dark-pastel-blue bg-dark-pastel-blue">
                               View Admins
                             </button>
                         </a>
@@ -36,7 +36,7 @@ Add New Admin
                                 <form class="new-added-form" action="{{ route('add-admin') }}" method="POST" id="add-user-form" enctype="multipart/form-data">
                                     @csrf
                                     <div class="row">
-                                        <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                        <div class="col-xl-6 col-lg-6 col-12 form-group">
                                             <label>First Name <span class="required">*</span></label>
                                             <input type="text" name="first_name" value="{{ old('first_name') }}" class="form-control" maxlength="30" required autocomplete autofocus>
                                             @error('first_name')
@@ -45,7 +45,7 @@ Add New Admin
                                                 </span>
                                             @enderror
                                         </div>
-                                        <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                        <div class="col-xl-6 col-lg-6 col-12 form-group">
                                             <label>Other Name</label>
                                             <input type="text" name="other_name" value="{{ old('other_name') }}" class="form-control" maxlength="30" autocomplete autofocus>
                                             @error('other_name')
@@ -54,7 +54,7 @@ Add New Admin
                                                 </span>
                                             @enderror
                                         </div>
-                                        <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                        <div class="col-xl-6 col-lg-6 col-12 form-group">
                                             <label>Last Name <span class="required">*</span></label>
                                             <input type="text" name="last_name" value="{{ old('last_name') }}" class="form-control" maxlength="30" required autocomplete autofocus>
                                             @error('last_name')
@@ -63,7 +63,7 @@ Add New Admin
                                                 </span>
                                             @enderror
                                         </div>
-                                        <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                        <div class="col-xl-6 col-lg-6 col-12 form-group">
                                             <label>Gender <span class="required">*</span></label>
                                             <select class="select2" name="gender" required>
                                                 @if(old('gender') && old('gender') == 'm')
@@ -84,7 +84,7 @@ Add New Admin
                                                 </span>
                                             @enderror
                                         </div>
-                                        <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                        <div class="col-xl-6 col-lg-6 col-12 form-group">
                                             <label>Job Title</label>
                                             <input type="text" name="job_title" value="{{ old('job_title') }}" class="form-control" maxlength="30" autocomplete autofocus>
                                             @error('job_title')
@@ -93,7 +93,7 @@ Add New Admin
                                                 </span>
                                             @enderror
                                         </div>
-                                        <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                        <div class="col-xl-6 col-lg-6 col-12 form-group">
                                             <label>Email</label>
                                             <input type="email" name="email" value="{{ old('email') }}" class="form-control" maxlength="30" autocomplete autofocus>
                                             @error('email')
@@ -102,16 +102,16 @@ Add New Admin
                                                 </span>
                                             @enderror
                                         </div>
-                                        <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                        <div class="col-xl-6 col-lg-6 col-12 form-group">
                                             <label>Phone</label>
-                                            <input type="text" name="phone" value="{{ old('phone') }}" class="form-control" maxlength="14" autocomplete autofocus>
+                                            <input type="text" name="phone" id="phone" value="{{ old('phone') }}" class="form-control" maxlength="14" placeholder="000-000-000-000" pattern="[0-9]{4}[0-9]{3}[0-9]{3}" autofocus>
                                             @error('phone')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
                                             @enderror
                                         </div>
-                                        <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                        <div class="col-xl-6 col-lg-6 col-12 form-group">
                                             <label>Address</label>
                                             <input type="text" name="address" value="{{ old('address') }}" class="form-control" maxlength="60" autocomplete autofocus>
                                             @error('address')
@@ -120,7 +120,7 @@ Add New Admin
                                                 </span>
                                             @enderror
                                         </div>
-                                        <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                        <div class="col-xl-6 col-lg-6 col-12 form-group">
                                             <label>Profile Photo</label>
                                             <input type="file" name="profile_image" class="form-control" accept="image/*" autofocus>
                                             @error('profile_image')
@@ -129,7 +129,7 @@ Add New Admin
                                                 </span>
                                             @enderror
                                         </div>
-                                        <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                        <div class="col-xl-6 col-lg-6 col-12 form-group">
                                             <label>User Name <span class="required">*</span></label>
                                             <input type="text" name="user_name" value="{{ old('user_name') }}" class="form-control" maxlength="30" required autocomplete autofocus>
                                             @error('user_name')
@@ -138,7 +138,7 @@ Add New Admin
                                                 </span>
                                             @enderror
                                         </div>
-                                        <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                        <div class="col-xl-6 col-lg-6 col-12 form-group">
                                             <label>Password <span class="required">*</span></label>
                                             <input type="password" id="password" name="password" class="form-control" maxlength="30" required autofocus>
                                             @error('password')
@@ -148,7 +148,7 @@ Add New Admin
                                             @enderror
                                         </div>   
                                         <div class="col-12 form-group mg-t-8">
-                                            <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Save</button>
+                                            <button type="submit" class="btn-fill-lg btn-gradient-blue btn-hover-bluedark">Submit</button>
                                         </div>
                                     </div>
                                 </form>

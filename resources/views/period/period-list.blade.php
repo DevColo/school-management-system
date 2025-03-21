@@ -1,6 +1,6 @@
 @extends('layouts.backend-layout')
 @section('title')
-Admin List
+Period List
 @endsection('title')
 @section('css')
     <!-- Select 2 CSS -->
@@ -18,23 +18,14 @@ Admin List
             <!-- Sidebar Area End Here -->
             <div class="list-content">
                 <!-- Breadcubs Area Start Here -->
-                <div style="display: flex; justify-content: space-between">
                 <div class="breadcrumbs-area">
-                    <h3>Admin</h3>
+                    <h3>Period</h3>
                     <ul>
                         <li>
                             <a href="{{ route('home') }}">Home</a>
                         </li>
-                        <li>Admin List</li>
+                        <li>Period List</li>
                     </ul>
-                </div>
-                <div class="breadcrumbs-area">
-                        <a href="{{ route('add-admin-form') }}">
-                            <button type="button" class="btn-fill-md radius-30 text-light shadow-dark-pastel-blue bg-dark-pastel-blue">
-                              Add Admin
-                            </button>
-                        </a>
-                  </div>
                 </div>
                 <!-- Breadcubs Area End Here -->
                 <!-- Teacher Table Area Start Here -->
@@ -49,21 +40,19 @@ Admin List
                                   class="fa fa-print text-green" aria-hidden="true" ></i></a>
 
                             </div>
+                           
                         </div>
                         <div class="table-responsive">
-                            <table class="table display data-table text-nowrap" id="admin_table">
+                            <table class="table display data-table text-nowrap" id="period_table">
                                 <thead>
                                     <tr>
                                         <th><label class="">ID</label></th>
-                                        <!-- <th>Photo</th> -->
-                                        <th>First Name</th>
-                                        <th>Other Name</th>
-                                        <th>Last Name</th>
-                                        <!-- <th>Gender</th> -->
-                                        <th>Job Title</th>
-                                        <th>Phone</th>
-                                        <th>Email</th>
-                                        <!-- <th>Address</th> -->
+                                        <th>Period</th>
+                                        <th>Semester</th>
+                                        <th>Academic Year</th>
+                                        <th>Create By</th>
+                                        <th>Created On</th>
+                                        <th>Updated On</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -87,7 +76,7 @@ Admin List
 
     <script type="text/javascript">
         $(document).ready(function(){
-          let table =  new DataTable('#admin_table',{
+          let table =  new DataTable('#period_table',{
               paging: true,
               searching: true,
               info: true,
@@ -100,55 +89,40 @@ Admin List
               processing: true,
               serverSide: true,
               language: {
-                searchPlaceholder: "Find by ID, Name, or Phone"
+                searchPlaceholder: "Find by period or semester"
               },
               ajax:{
-               url: "{{ URL::to('/admin-list') }}",
+               url: "{{ URL::to('/period-list') }}",
               },
               columns:[
                {
                 data: 'id',
                 name: 'id'
                },
-               // {
-               //  data: 'profile_image',
-               //  name: 'profile_image',
-               //  render: function (data, type, full, meta) {
-               //      return "<img src=\"{{asset('admin_img/')}}\\" + data + "\" width=\"40\"/>";
-               //  },
-               // },
                {
-                data: 'first_name',
-                name: 'first_name'
+                data: 'period',
+                name: 'period'
                },
                {
-                data: 'other_name',
-                name: 'other_name'
+                data: 'semester',
+                name: 'semester'
                },
                {
-                data: 'last_name',
-                name: 'last_name'
-               },
-               // {
-               //  data: 'gender',
-               //  name: 'gender'
-               // },
-               {
-                data: 'job_title',
-                name: 'job_title'
+                data: 'year',
+                name: 'year'
                },
                {
-                data: 'phone',
-                name: 'phone'
+                data: 'username',
+                name: 'username'
                },
                {
-                data: 'email',
-                name: 'email'
+                data: 'created',
+                name: 'created',
                },
-               // {
-               //  data: 'address',
-               //  name: 'address'
-               // },
+               {
+                data: 'updated',
+                name: 'updated'
+               },
                {
                 data: 'status',
                 name: 'status',
@@ -160,13 +134,28 @@ Admin List
                }
               ]
              });
+
+            // Get the current URL
+            var currentURL = window.location.href;
+            var segments = currentURL.split('/');
+            segments = segments.filter(function(segment) {
+              return segment !== '';
+            });
+
+            if(typeof segments[2] !== 'undefined'){
+                var urlParams = new URLSearchParams(window.location.search);
+                var desiredParam = urlParams.get("search");
+                if (desiredParam !== null) {
+                    table.search(desiredParam).draw();
+                }
+            }
         });
-        function activateUser(user_id) {
+        function activatePeriod(period_id) {
           var token = $('meta[name="csrf-token"]').attr('content');
           swal(
               {
                 title: "Activate?",
-                text: "Confirm you want to activate this user",
+                text: "Confirm you want to activate this period",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonClass: "btn-success",
@@ -180,19 +169,19 @@ Admin List
                 if (isConfirm) {
                   $.ajax({
                       type: 'POST',
-                      url:  "/activate-user",
-                      data: {_token:token,user_id: user_id},
+                      url:  "/activate-period",
+                      data: {_token:token,period_id: period_id},
                       success: function(data) {
                         var parsedJson = jQuery.parseJSON(data);
                         if (typeof parsedJson.msg != 'undefined' && parsedJson.msg == 'unauthorized') {
-                          swal("Cancelled", "You're unauthorized to activate this user", "error");
+                          swal("Cancelled", "You're unauthorized to activate this period", "error");
                         }else if(typeof parsedJson.msg != 'undefined' && parsedJson.msg == 'error'){
-                          swal("Cancelled", "The user was not activated, Contact the System Admin", "error");
+                          swal("Cancelled", "The period was not activated, Contact the System Admin", "error");
                         }else if(typeof parsedJson.msg != 'undefined' && parsedJson.msg == 'success'){
                           swal(
                             {
                               title: "Activated",
-                              text: "The user has been activated successfully.",
+                              text: "The period has been activated successfully.",
                               type: "success",
                             },
                             function(isOk) {
@@ -205,19 +194,19 @@ Admin List
                       }
                   });
                 } else {
-                  swal("Cancelled", "The user was not activated, Contact the System Admin", "error");
+                  swal("Cancelled", "The period was not activated, Contact the System Admin", "error");
                 }
               }
           );
       }
 
-      // deactivate user
-      function deactivateUser(user_id) {
+      // deactivate period
+      function deactivatePeriod(period_id) {
         var token = $('meta[name="csrf-token"]').attr('content');
           swal(
               {
                 title: "Deactivate?",
-                text: "Confirm you want to deactivate this user",
+                text: "Confirm you want to deactivate this period",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonClass: "btn-danger",
@@ -231,19 +220,19 @@ Admin List
                 if (isConfirm) {
                   $.ajax({
                       type: 'POST',
-                      url:  "/deactivate-user",
-                      data: {_token:token,user_id: user_id},
+                      url:  "/deactivate-period",
+                      data: {_token:token,period_id: period_id},
                       success: function(data) {
                         var parsedJson = jQuery.parseJSON(data);
                         if (typeof parsedJson.msg != 'undefined' && parsedJson.msg == 'unauthorized') {
-                          swal("Cancelled", "You're unauthorized to deactivate this user", "error");
+                          swal("Cancelled", "You're unauthorized to deactivate this period", "error");
                         }else if(typeof parsedJson.msg != 'undefined' && parsedJson.msg == 'error'){
-                          swal("Cancelled", "The user was not deactivated, Contact the System Admin", "error");
+                          swal("Cancelled", "The period was not deactivated, Contact the System Admin", "error");
                         }else if(typeof parsedJson.msg != 'undefined' && parsedJson.msg == 'success'){
                           swal(
                             {
                               title: "Deactivated",
-                              text: "The user has been deactivated successfully.",
+                              text: "The period has been deactivated successfully.",
                               type: "success",
                             },
                             function(isOk) {
@@ -256,7 +245,7 @@ Admin List
                       }
                   });
                 } else {
-                  swal("Cancelled", "The user was not deactivated, Contact the System Admin", "error");
+                  swal("Cancelled", "The period was not deactivated, Contact the System Admin", "error");
                 }
               }
           );
