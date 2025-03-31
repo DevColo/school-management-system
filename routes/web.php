@@ -120,6 +120,7 @@ Route::middleware(['auth'])->group(function () {
 
     //View Student Detail
     Route::get('student-list', 'StudentDetailController@viewStudentList')->name('student-list');
+    Route::get('student-profile/{studentId}', 'StudentDetailController@studentProfile')->name('student-profile');
     Route::post('activate-student', 'StudentDetailController@activateStudent')->name('activate-student');
     Route::post('deactivate-student', 'StudentDetailController@deactivateStudent')->name('deactivate-student');
 

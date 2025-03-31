@@ -108,7 +108,9 @@
                 </div>
                 <div class="admin-img">
                   @if (auth()->user()->hasAnyRole(['superadmin', 'admin']))
-                    <img src="{{ asset('admin_img')}}/{{ Auth::user()->profile_image }}" width="200" height="150" alt="Admin" />
+                    <img src="{{ asset('admin_img')}}/{{ Auth::user()->profile_image ?? 'avatar.jpg' }}" width="200" height="150" alt="Admin" />
+                  @elseif (auth()->user()->hasAnyRole(['student']))
+                     <img src="{{ asset('student_img')}}/{{ Auth::user()->profile_image ?? 'avatar.jpg' }}" width="200" height="150" alt="Admin" />
                   @endif
                   <!-- <img src="{{ asset('img/figure/admin.jpg') }}" alt="Admin" /> -->
                 </div>
@@ -119,15 +121,21 @@
                 </div>
                 <div class="item-content">
                   <ul class="settings-list">
-                    <li>
-                      <a href="{{ route('user-profile',Auth::user()->id) }}"><i class="flaticon-user"></i>My Profile</a>
-                    </li>
-                    <li>
-                      <a href="{{ route('account-setting',Auth::user()->id) }}"
-                        ><i class="flaticon-gear-loading"></i>Account
-                        Settings</a
-                      >
-                    </li>
+                    @if (auth()->user()->hasAnyRole(['superadmin', 'admin']))
+                      <li>
+                        <a href="{{ route('user-profile',Auth::user()->id) }}"><i class="flaticon-user"></i>My Profile</a>
+                      </li>
+                      <li>
+                        <a href="{{ route('account-setting',Auth::user()->id) }}"
+                          ><i class="flaticon-gear-loading"></i>Account
+                          Settings</a
+                        >
+                      </li>
+                     @elseif (auth()->user()->hasAnyRole(['student']))
+                       <li>
+                        <a href="{{ route('student-profile',Auth::user()->id) }}"><i class="flaticon-user"></i>My Profile</a>
+                      </li>
+                    @endif
                     <li>
                       <a href="{{ route('change-password', Auth::user()->id) }}"
                         ><i class="fa fa-key"></i>Change
@@ -147,145 +155,6 @@
                 </div>
               </div>
             </li>
-            <li class="navbar-item dropdown header-message">
-              <a
-                class="navbar-nav-link dropdown-toggle"
-                href="#"
-                role="button"
-                data-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <i class="far fa-envelope"></i>
-                <div class="item-title d-md-none text-16 mg-l-10">Message</div>
-                <span>5</span>
-              </a>
-
-              <div class="dropdown-menu dropdown-menu-right">
-                <div class="item-header">
-                  <h6 class="item-title">05 Message</h6>
-                </div>
-                <div class="item-content">
-                  <div class="media">
-                    <div class="item-img bg-skyblue author-online">
-                      <img src="{{ asset('img/figure/student11.png') }}" alt="img" />
-                    </div>
-                    <div class="media-body space-sm">
-                      <div class="item-title">
-                        <a href="#">
-                          <span class="item-name">Maria Zaman</span>
-                          <span class="item-time">18:30</span>
-                        </a>
-                      </div>
-                      <p>
-                        What is the reason of buy this item. Is it usefull for
-                        me.....
-                      </p>
-                    </div>
-                  </div>
-                  <div class="media">
-                    <div class="item-img bg-yellow author-online">
-                      <img src="{{ asset('img/figure/student12.png') }}" alt="img" />
-                    </div>
-                    <div class="media-body space-sm">
-                      <div class="item-title">
-                        <a href="#">
-                          <span class="item-name">Benny Roy</span>
-                          <span class="item-time">10:35</span>
-                        </a>
-                      </div>
-                      <p>
-                        What is the reason of buy this item. Is it usefull for
-                        me.....
-                      </p>
-                    </div>
-                  </div>
-                  <div class="media">
-                    <div class="item-img bg-pink">
-                      <img src="{{ asset('img/figure/student13.png') }}" alt="img" />
-                    </div>
-                    <div class="media-body space-sm">
-                      <div class="item-title">
-                        <a href="#">
-                          <span class="item-name">Steven</span>
-                          <span class="item-time">02:35</span>
-                        </a>
-                      </div>
-                      <p>
-                        What is the reason of buy this item. Is it usefull for
-                        me.....
-                      </p>
-                    </div>
-                  </div>
-                  <div class="media">
-                    <div class="item-img bg-violet-blue">
-                      <img src="{{ asset('img/figure/student11.png') }}" alt="img" />
-                    </div>
-                    <div class="media-body space-sm">
-                      <div class="item-title">
-                        <a href="#">
-                          <span class="item-name">Joshep Joe</span>
-                          <span class="item-time">12:35</span>
-                        </a>
-                      </div>
-                      <p>
-                        What is the reason of buy this item. Is it usefull for
-                        me.....
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li class="navbar-item dropdown header-notification">
-              <a
-                class="navbar-nav-link dropdown-toggle"
-                href="#"
-                role="button"
-                data-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <i class="far fa-bell"></i>
-                <div class="item-title d-md-none text-16 mg-l-10">
-                  Notification
-                </div>
-                <span>8</span>
-              </a>
-
-              <div class="dropdown-menu dropdown-menu-right">
-                <div class="item-header">
-                  <h6 class="item-title">03 Notifiacations</h6>
-                </div>
-                <div class="item-content">
-                  <div class="media">
-                    <div class="item-icon bg-skyblue">
-                      <i class="fas fa-check"></i>
-                    </div>
-                    <div class="media-body space-sm">
-                      <div class="post-title">Complete Today Task</div>
-                      <span>1 Mins ago</span>
-                    </div>
-                  </div>
-                  <div class="media">
-                    <div class="item-icon bg-orange">
-                      <i class="fas fa-calendar-alt"></i>
-                    </div>
-                    <div class="media-body space-sm">
-                      <div class="post-title">Director Metting</div>
-                      <span>20 Mins ago</span>
-                    </div>
-                  </div>
-                  <div class="media">
-                    <div class="item-icon bg-violet-blue">
-                      <i class="fas fa-cogs"></i>
-                    </div>
-                    <div class="media-body space-sm">
-                      <div class="post-title">Update Password</div>
-                      <span>45 Mins ago</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </li>
           </ul>
         </div>
       </div>
@@ -301,8 +170,15 @@
         >
           <div class="mobile-sidebar-header d-md-none">
             <div class="header-logo">
-              <a href="index.html"><img src="{{ asset('img/logo1.png') }}" alt="logo" /></a>
-            </div>
+            <a href="{{ route('home') }}">
+              <img
+                width="160px"
+                height="100px"
+                src="{{ asset('img/skoology-white.png') }}"
+                alt="logo"
+              />
+            </a>
+          </div>
           </div>
           <div class="sidebar-menu-content">
             <ul class="nav nav-sidebar-menu sidebar-toggle-view">
@@ -311,267 +187,292 @@
                   ><i class="flaticon-dashboard"></i><span>Dashboard</span></a
                 >
               </li>
-              <li class="nav-item sidebar-nav-item">
-                <a href="#" class="nav-link"
-                  ><i class="flaticon-couple"></i><span>Manage Admin</span></a
-                >
-                <ul class="nav sub-group-menu">
-                  <li class="nav-item">
-                    <a href="{{ route('add-admin-form') }}" class="nav-link"
-                      >Add  Admin</a
-                    >
-                  </li>
-                  <li class="nav-item">
-                    <a href="{{ route('admin-list') }}" class="nav-link"
-                      >Admin List</a
-                    >
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-item sidebar-nav-item">
-                <a href="#" class="nav-link"
-                  ><i class="flaticon-classmates"></i><span>Students</span></a
-                >
-                <ul class="nav sub-group-menu">
-                  <li class="nav-item">
-                    <a href="{{ route('add-student') }}" class="nav-link"
-                      >Add Student</a
-                    >
-                  </li>
-                  <li class="nav-item">
-                    <a href="{{ route('admin-list') }}" class="nav-link"
-                      >Admin List</a
-                    >
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-item sidebar-nav-item">
-                <a href="#" class="nav-link"
-                  ><i class="flaticon-multiple-users-silhouette"></i
-                  ><span>Librarian</span></a
-                >
-                <ul class="nav sub-group-menu">
-                  <li class="nav-item">
-                    <a href="all-librarian.html" class="nav-link"
-                      >All Librarian</a
-                    >
-                  </li>
-                  <!-- <li class="nav-item">
-                                    <a href="librarian-details.html" class="nav-link"><i
-                                            class="fas fa-angle-right"></i>Librarian Details</a>
-                                </li> -->
-                  <li class="nav-item">
-                    <a href="add-librarian.html" class="nav-link"
-                      >Add Librarian</a
-                    >
-                  </li>
-                </ul>
-              </li>
+              <!-- Superadmin & Admin -->
+              @if (Auth()->user()->hasAnyRole(['superadmin', 'admin']))
+                <li class="nav-item sidebar-nav-item">
+                  <a href="#" class="nav-link"
+                    ><i class="flaticon-couple"></i><span>Administrators</span></a
+                  >
+                  <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                      <a href="{{ route('add-admin-form') }}" class="nav-link"
+                        >Add Administrator</a
+                      >
+                    </li>
+                    <li class="nav-item">
+                      <a href="{{ route('admin-list') }}" class="nav-link"
+                        >Administrators List</a
+                      >
+                    </li>
+                  </ul>
+                </li>
+                <li class="nav-item sidebar-nav-item">
+                  <a href="#" class="nav-link"
+                    ><i class="flaticon-classmates"></i><span>Students</span></a
+                  >
+                  <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                      <a href="{{ route('add-student') }}" class="nav-link"
+                        >Add Student</a
+                      >
+                    </li>
+                    <li class="nav-item">
+                      <a href="{{ route('student-list') }}" class="nav-link"
+                        >Student List</a
+                      >
+                    </li>
+                  </ul>
+                </li>
+                <!-- <li class="nav-item sidebar-nav-item">
+                  <a href="#" class="nav-link"
+                    ><i class="flaticon-multiple-users-silhouette"></i
+                    ><span>Librarian</span></a
+                  >
+                  <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                      <a href="all-librarian.html" class="nav-link"
+                        >All Librarian</a
+                      >
+                    </li>
+                    <li class="nav-item">
+                      <a href="add-librarian.html" class="nav-link"
+                        >Add Librarian</a
+                      >
+                    </li>
+                  </ul>
+                </li> -->
 
-              <li class="nav-item sidebar-nav-item">
-                <a href="#" class="nav-link"
-                  ><i class="flaticon-books"></i><span>Library</span></a
-                >
-                <ul class="nav sub-group-menu">
-                  <li class="nav-item">
-                    <a href="all-book.html" class="nav-link"
-                      ><i class="fas fa-angle-right"></i>All Books</a
-                    >
-                  </li>
-                  <li class="nav-item">
-                    <a href="add-book.html" class="nav-link"
-                      ><i class="fas fa-angle-right"></i>Add New Book</a
-                    >
-                  </li>
-                </ul>
-              </li>
-              <!-- Academic Year -->
+                <!-- <li class="nav-item sidebar-nav-item">
+                  <a href="#" class="nav-link"
+                    ><i class="flaticon-books"></i><span>Library</span></a
+                  >
+                  <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                      <a href="all-book.html" class="nav-link"
+                        ><i class="fas fa-angle-right"></i>All Books</a
+                      >
+                    </li>
+                    <li class="nav-item">
+                      <a href="add-book.html" class="nav-link"
+                        ><i class="fas fa-angle-right"></i>Add New Book</a
+                      >
+                    </li>
+                  </ul>
+                </li> -->
+                <!-- Academic Year -->
 
-              <li class="nav-item sidebar-nav-item">
-                <a href="#" class="nav-link"
-                  ><i class="fa fa-globe"></i><span>Manage Years</span></a
-                >
-                <ul class="nav sub-group-menu">
-                   <li class="nav-item">
-                    <a href="{{ route('add-year') }}" class="nav-link"
-                      >Add Academic Year</a
-                    >
-                  </li>
-                  <li class="nav-item">
-                    <a href="{{ route('year-list') }}" class="nav-link"
-                      >View Academic Years</a
-                    >
-                  </li>
-                </ul>
-              </li>
+                <li class="nav-item sidebar-nav-item">
+                  <a href="#" class="nav-link"
+                    ><i class="fa fa-globe"></i><span>Academic Years</span></a
+                  >
+                  <ul class="nav sub-group-menu">
+                     <li class="nav-item">
+                      <a href="{{ route('add-year') }}" class="nav-link"
+                        >Add Academic Year</a
+                      >
+                    </li>
+                    <li class="nav-item">
+                      <a href="{{ route('year-list') }}" class="nav-link"
+                        >View Academic Years</a
+                      >
+                    </li>
+                  </ul>
+                </li>
 
-              <!-- Semester -->
-              <li class="nav-item sidebar-nav-item">
-                <a href="#" class="nav-link"
-                  ><i class="fa fa-star-half"></i><span>Manage Semesters</span></a
-                >
-                <ul class="nav sub-group-menu">
-                  <li class="nav-item">
-                    <a href="{{ route('add-semester') }}" class="nav-link"
-                      >Add New Semester</a
-                    >
-                  </li>
-                  <li class="nav-item">
-                    <a href="{{ route('semester-list') }}" class="nav-link"
-                      >View Semesters</a
-                    >
-                  </li>
-                </ul>
-              </li>
+                <!-- Semester -->
+                <li class="nav-item sidebar-nav-item">
+                  <a href="#" class="nav-link"
+                    ><i class="fa fa-star-half"></i><span>Semesters</span></a
+                  >
+                  <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                      <a href="{{ route('add-semester') }}" class="nav-link"
+                        >Add New Semester</a
+                      >
+                    </li>
+                    <li class="nav-item">
+                      <a href="{{ route('semester-list') }}" class="nav-link"
+                        >View Semesters</a
+                      >
+                    </li>
+                  </ul>
+                </li>
 
-              <!-- Period -->
-              <li class="nav-item sidebar-nav-item">
-                <a href="#" class="nav-link"
-                  ><i class="flaticon-open-book"></i><span>Manage Periods</span></a
-                >
-                <ul class="nav sub-group-menu">
-                  <li class="nav-item">
-                    <a href="{{ route('add-period') }}" class="nav-link"
-                      >Add New Period</a
-                    >
-                  </li>
-                  <li class="nav-item">
-                    <a href="{{ route('period-list') }}" class="nav-link"
-                      >View Periods</a
-                    >
-                  </li>
-                </ul>
-              </li>
+                <!-- Period -->
+                <li class="nav-item sidebar-nav-item">
+                  <a href="#" class="nav-link"
+                    ><i class="flaticon-open-book"></i><span>Periods</span></a
+                  >
+                  <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                      <a href="{{ route('add-period') }}" class="nav-link"
+                        >Add New Period</a
+                      >
+                    </li>
+                    <li class="nav-item">
+                      <a href="{{ route('period-list') }}" class="nav-link"
+                        >View Periods</a
+                      >
+                    </li>
+                  </ul>
+                </li>
 
-              <!-- Class -->
-              <li class="nav-item sidebar-nav-item">
-                <a href="#" class="nav-link"
-                  ><i class="fa fa-users"></i><span>Manage Classes</span></a
-                >
-                <ul class="nav sub-group-menu">
-                  <li class="nav-item">
-                    <a href="{{ route('add-class') }}" class="nav-link"
-                      >Add Class</a
-                    >
-                  </li>
-                  <li class="nav-item">
-                    <a href="{{ route('class-list') }}" class="nav-link"
-                      >View Classes</a
-                    >
-                  </li>
-                </ul>
-              </li>
+                <!-- Class -->
+                <li class="nav-item sidebar-nav-item">
+                  <a href="#" class="nav-link"
+                    ><i class="fa fa-users"></i><span>Classes</span></a
+                  >
+                  <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                      <a href="{{ route('add-class') }}" class="nav-link"
+                        >Add New Class</a
+                      >
+                    </li>
+                    <li class="nav-item">
+                      <a href="{{ route('class-list') }}" class="nav-link"
+                        >View Classes</a
+                      >
+                    </li>
+                  </ul>
+                </li>
 
-              <!-- Subjects -->
-              <li class="nav-item sidebar-nav-item">
-                <a href="#" class="nav-link"
-                  ><i class="fa fa-book"></i><span>Subject</span></a
-                >
-                <ul class="nav sub-group-menu">
-                  <li class="nav-item">
-                    <a href="{{ route('add-subject') }}" class="nav-link"
-                      >Add New Subject</a
-                    >
-                  </li>
-                  <li class="nav-item">
-                    <a href="{{ route('subject-list') }}" class="nav-link"
-                      >View Subjects</a
-                    >
-                  </li>
-                </ul>
-              </li>
+                <!-- Subjects -->
+                <li class="nav-item sidebar-nav-item">
+                  <a href="#" class="nav-link"
+                    ><i class="fa fa-book"></i><span>Subject</span></a
+                  >
+                  <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                      <a href="{{ route('add-subject') }}" class="nav-link"
+                        >Add New Subject</a
+                      >
+                    </li>
+                    <li class="nav-item">
+                      <a href="{{ route('subject-list') }}" class="nav-link"
+                        >View Subjects</a
+                      >
+                    </li>
+                  </ul>
+                </li>
 
-              <!-- Grades -->
-              <li class="nav-item sidebar-nav-item">
-                <a href="#" class="nav-link"
-                  ><i class="fa fa-table"></i><span>Grades</span></a
-                >
-                <ul class="nav sub-group-menu">
-                  <li class="nav-item">
-                    <a href="all-subject.html" class="nav-link"
-                      >All Grades</a
-                    >
-                  </li>
-                  <li class="nav-item">
-                    <a href="add-subject.html" class="nav-link"
-                      >Add New Grade</a
-                    >
-                  </li>
-                </ul>
-              </li>
+                <!-- Grades -->
+                <li class="nav-item sidebar-nav-item">
+                  <a href="#" class="nav-link"
+                    ><i class="fa fa-table"></i><span>Grades</span></a
+                  >
+                  <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                      <a href="add-subject.html" class="nav-link"
+                        >Add New Grades</a
+                      >
+                    </li>
+                    <li class="nav-item">
+                      <a href="all-subject.html" class="nav-link"
+                        >All Grades</a
+                      >
+                    </li>
+                  </ul>
+                </li>
 
-              <!-- Activities Management -->
+                <!-- Activities Management -->
 
-              <li class="nav-item sidebar-nav-item">
-                <a href="#" class="nav-link"
-                  ><i class="fa fa-bookmark"></i><span>Activities Management</span></a
-                >
-                <ul class="nav sub-group-menu">
-                  <li class="nav-item">
-                    <a href="add-exam-schedule.html" class="nav-link"
-                      >Add Exam Schedule</a
-                    >
-                  </li>
-                  <li class="nav-item">
-                    <a href="exam-schedule.html" class="nav-link"
-                      >Exam Schedules</a
-                    >
-                  </li>
-                  <li class="nav-item">
-                    <a href="add-calendar.html" class="nav-link"
-                      >Add Calendar of
-                      Events</a
-                    >
-                  </li>
-                  <li class="nav-item">
-                    <a href="calendar.html" class="nav-link"
-                      >Calendar of Events</a
-                    >
-                  </li>
-                </ul>
-              </li>
+                <li class="nav-item sidebar-nav-item">
+                  <a href="#" class="nav-link"
+                    ><i class="fa fa-bookmark"></i><span>Activities Management</span></a
+                  >
+                  <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                      <a href="add-exam-schedule.html" class="nav-link"
+                        >Add Exam Schedule</a
+                      >
+                    </li>
+                    <li class="nav-item">
+                      <a href="exam-schedule.html" class="nav-link"
+                        >Exam Schedules</a
+                      >
+                    </li>
+                    <li class="nav-item">
+                      <a href="add-calendar.html" class="nav-link"
+                        >Add Calendar of
+                        Events</a
+                      >
+                    </li>
+                    <li class="nav-item">
+                      <a href="calendar.html" class="nav-link"
+                        >Calendar of Events</a
+                      >
+                    </li>
+                  </ul>
+                </li>
 
-              <!-- General Settings -->
-              <li class="nav-item sidebar-nav-item">
-                <a href="#" class="nav-link"
-                  ><i class="fa fa-cog"></i
-                  ><span>Settings</span></a
-                >
-                <ul class="nav sub-group-menu">
-                  <li class="nav-item">
-                    <a href="{{ route('manage-roles') }}" class="nav-link"
-                      >Roles</a
-                    >
-                  </li>
-                  <li class="nav-item">
-                    <a href="exam-schedule.html" class="nav-link"
-                      >Permission</a
-                    >
-                  </li>
-                  <li class="nav-item">
-                    <a href="exam-schedule.html" class="nav-link"
-                      >Add Exam Schedule</a
-                    >
-                  </li>
-                  <li class="nav-item">
-                    <a href="exam-grade.html" class="nav-link"
-                      >Exam Schedules</a
-                    >
-                  </li>
-                  <li class="nav-item">
-                    <a href="exam-schedule.html" class="nav-link"
-                      >Add Calendar of
-                      Events</a
-                    >
-                  </li>
-                  <li class="nav-item">
-                    <a href="exam-grade.html" class="nav-link"
-                      >Calendar of Events</a
-                    >
-                  </li>
-                </ul>
-              </li>
-            </ul>
+                <!-- General Settings -->
+                <li class="nav-item sidebar-nav-item">
+                  <a href="#" class="nav-link"
+                    ><i class="fa fa-cog"></i
+                    ><span>Settings</span></a
+                  >
+                  <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                      <a href="{{ route('manage-roles') }}" class="nav-link"
+                        >Roles</a
+                      >
+                    </li>
+                    <li class="nav-item">
+                      <a href="exam-schedule.html" class="nav-link"
+                        >Permission</a
+                      >
+                    </li>
+                    <li class="nav-item">
+                      <a href="exam-schedule.html" class="nav-link"
+                        >Add Exam Schedule</a
+                      >
+                    </li>
+                    <li class="nav-item">
+                      <a href="exam-grade.html" class="nav-link"
+                        >Exam Schedules</a
+                      >
+                    </li>
+                    <li class="nav-item">
+                      <a href="exam-schedule.html" class="nav-link"
+                        >Add Calendar of
+                        Events</a
+                      >
+                    </li>
+                    <li class="nav-item">
+                      <a href="exam-grade.html" class="nav-link"
+                        >Calendar of Events</a
+                      >
+                    </li>
+                     </ul>
+                  @endif
+                  <!-- Superadmin & Admin -->
+                  @if (Auth()->user()->hasAnyRole(['student']))
+
+                <li class="nav-item sidebar-nav-item">
+                  <a href="#" class="nav-link"
+                    ><i class="flaticon-money"></i><span>Tuition</span></a
+                  >
+                  <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                      <a href="#" class="nav-link"
+                        ><i class="fas fa-angle-right"></i>Installments</a
+                      >
+                    </li>
+                    <li class="nav-item">
+                      <a href="#" class="nav-link"
+                        ><i class="fas fa-angle-right"></i>Payment History</a
+                      >
+                    </li>
+                  </ul>
+                </li>
+
+                <!-- Grades -->
+                <li class="nav-item">
+                  <a href="" class="nav-link"
+                    ><i class="fa fa-table"></i><span>Grade Sheet</span></a
+                  >
+                </li>
+               @endif
           </div>
         </div>
         <!-- Sidebar Area End Here -->

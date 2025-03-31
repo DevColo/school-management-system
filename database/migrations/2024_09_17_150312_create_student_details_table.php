@@ -40,6 +40,7 @@ return new class extends Migration
             $table->string('emergency_contact_email')->nullable();
             $table->string('emergency_contact_relationship')->nullable();
             
+            $table->string('status');
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->foreign('updated_by')
                 ->references('id')

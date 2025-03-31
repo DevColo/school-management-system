@@ -7,7 +7,7 @@ Change Password
 @section('content')
                 <div style="display: flex; justify-content: space-between">
                     <div class="breadcrumbs-area">
-                        <h3>Admin Profile</h3>
+                        <h3>Change Password</h3>
                         <ul>
                             <li>
                               <a href="{{ route('home') }}">Home</a>
@@ -15,13 +15,15 @@ Change Password
                             <li>Change Password</li>
                         </ul>
                     </div>
-                    <div class="breadcrumbs-area">
-                        <a href="{{ route('user-profile',$user->id) }}">
-                            <button type="button" class="btn-fill-md text-light bg-dark-pastel-green">
-                              Account Setting
-                            </button>
-                        </a>
-                    </div>
+                    @if (auth()->user()->hasAnyRole(['superadmin', 'admin']))
+                        <div class="breadcrumbs-area">
+                            <a href="{{ route('user-profile',$user->id) }}">
+                                <button type="button" class="btn-fill-md text-light bg-dark-pastel-green">
+                                  Account Setting
+                                </button>
+                            </a>
+                        </div>
+                    @endif
                 </div>
                 <!-- Breadcubs Area End Here -->
                 <!-- Account Settings Area Start Here -->
@@ -52,7 +54,7 @@ Change Password
                                             @enderror
                                         </div>
                                         <div class="col-12 form-group mg-t-8">
-                                            <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Save</button>
+                                            <button type="submit" class="btn-fill-lg btn-gradient-blue btn-hover-bluedark">Save</button>
                                         </div>
                                     </div>
                                 </form>

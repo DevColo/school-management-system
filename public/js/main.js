@@ -419,12 +419,13 @@
           Doughnut Chart 
       -------------------------------------*/
     if ($("#student-doughnut-chart").length) {
-
+      var male = $("#student-doughnut-chart").attr('male');
+      var female = $("#student-doughnut-chart").attr('female');
       var doughnutChartData = {
         labels: ["Female Students", "Male Students"],
         datasets: [{
           backgroundColor: ["#304ffe", "#ffa601"],
-          data: [45000, 105000],
+          data: [female, male],
           label: "Total Students"
         }, ]
       };

@@ -127,7 +127,7 @@ class UserController extends Controller
                 abort(400, 'User Not Found.');
             }
             $user_detail = DB::table('user_detail')->where('user_id',$user_id)->get();
-            return view('admin.change-password', compact('user_detail','user'));
+            return view('user.change-password', compact('user_detail','user'));
         }else{
             abort(403, 'Unauthorized access.');
         }
@@ -137,7 +137,7 @@ class UserController extends Controller
      * Method to change password
     */
     public function changePassword(Request $request){
-        if(Auth::user()->hasRole('superadmin') || Auth::user()->hasRole('admin')) {
+        if(Auth::user()->hasRole('superadmin') || Auth::user()->hasRole('admin') || Auth::user()->hasRole('librarian') || Auth::user()->hasRole('student')) {
            $validatedFields = Validator::make($request->all(), [
                 'password' => ['required', 'string', 'min:6', 'confirmed']
             ]);

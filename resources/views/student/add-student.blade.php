@@ -25,7 +25,7 @@ Add Student
                     <div class="card-body">
                         <div class="heading-layout1">
                         </div>
-                        <form class="new-added-form" method="POST">
+                        <form class="new-added-form" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="">
                                 <p class="text-left">Student's Bio Information</p>
@@ -450,7 +450,7 @@ Add Student
                             <div class="row">
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
                                     <label>Class Assignment</label>
-                                    <select class="select2" name="class">
+                                    <select class="select2" name="class" id="class">
                                         @if(old('class'))
                                             @if(!$classes->isEmpty())
                                                 @foreach($classes as $class)
@@ -472,7 +472,38 @@ Add Student
                                             @endif
                                         @endif
                                     </select>
-                                    @error('emergency_contact_relationship')
+                                    @error('class')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                    <label for="status" style="margin-top:10px;"><input type="checkbox" id="status" class="pt-2" name="status" checked> Active</label>
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Academic Year <span class="required year" style="display:none;">*</span></label>
+                                    <select class="select2" name="year" id="year">
+                                        @if(old('year'))
+                                            @if(!$years->isEmpty())
+                                                @foreach($years as $year)
+                                                    @if(old('year') == $year->id)
+                                                        <option value="{{ $year->id }}" selected>{{ $year->year }}</option>
+                                                    @else
+                                                        <option value="{{ $year->id }}">{{ $year->year }}</option>
+                                                    @endif   
+                                                @endforeach
+                                            @endif
+                                        @else
+                                            @if(!$years->isEmpty())
+                                                <option value="">Select Academic Year</option>
+                                                @foreach($years as $year)
+                                                    <option value="{{ $year->id }}">{{ $year->year }}</option>
+                                                @endforeach
+                                            @else
+                                                <option value="">No Academic Year Found</option>
+                                            @endif
+                                        @endif
+                                    </select>
+                                    @error('year')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -499,11 +530,11 @@ Add Student
                     var reader = new FileReader();
 
                     reader.onload = function(e) {
-                        $('#blah').attr('src', e.target.result).show(); // Show the image
-                        $(".profile-contentimg span").removeClass("d-none"); // Show the remove button
+                        $('#blah').attr('src', e.target.result).show();
+                        $(".profile-contentimg span").removeClass("d-none");
                     }
 
-                    reader.readAsDataURL(input.files[0]); // Read file as Data URL
+                    reader.readAsDataURL(input.files[0]);
                 }
             });
 
@@ -511,9 +542,19 @@ Add Student
             $("#remove-product-img").click(function(e) {
                 e.preventDefault();
 
-                $('#blah').attr("src", "").hide(); // Clear and hide the image
-                $(".profile-contentimg span").addClass("d-none"); // Hide the remove button
-                $('#imgInp').val(""); // Clear the file input
+                $('#blah').attr("src", "").hide();
+                $(".profile-contentimg span").addClass("d-none");
+                $('#imgInp').val("");
+            });
+
+            $('#class').on('change', function() {
+                if ($(this).val() !== '') {
+                  $('#year').attr('required', true);
+                  $('span.year').css('display', 'initial');
+                } else {
+                  $('#year').removeAttr('required');
+                  $('span.year').css('display', 'none');
+                }
             });
         });
     </script>
