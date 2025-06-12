@@ -67,7 +67,7 @@ class RoleController extends Controller
                 ->rawColumns(['user_count','action','status'])
                 ->make(true);
             }            
-            return view('roles-and-permission.manage-roles');
+            return view('role.manage-roles');
         }else{
             abort(403, 'Unauthorized access.');
         }
@@ -127,7 +127,7 @@ class RoleController extends Controller
         if(Auth::user()->hasRole('superadmin')) {
             $role = Role::findOrFail($role_id);
             if (!empty($role)) {
-                return view('roles-and-permission.edit-role-form', compact('role'));
+                return view('role.edit-role-form', compact('role'));
             }else{
                  abort(404, 'Role not found.');
             }

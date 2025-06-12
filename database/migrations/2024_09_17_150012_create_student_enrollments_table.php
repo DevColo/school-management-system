@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('student_detail_id')->constrained()->onDelete('cascade');
             $table->foreignId('academic_year_id')->constrained()->onDelete('cascade');
-            $table->foreignId('class_id')->constrained()->onDelete('cascade');
+            $table->foreignId('college_id')->constrained()->onDelete('cascade');
+            $table->foreignId('major_id')->constrained()->onDelete('cascade');
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->foreign('updated_by')
                 ->references('id')

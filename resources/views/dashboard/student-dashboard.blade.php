@@ -3,6 +3,19 @@
 Dashboard
 @endsection('title')
 @section('content')
+<style type="text/css">
+  .dashboard-summery-one .item-icon {
+    height: 60px;
+    width: 60px;
+    line-height: revert;
+  }
+  .dashboard-summery-one .item-icon i:before {
+    font-size: 36px;
+  }
+  .dashboard-summery-one .item-content .item-number {
+    font-size: 17px;
+  }
+</style>
 
           <!-- Breadcubs Area Start Here -->
           <div class="breadcrumbs-area">
@@ -21,18 +34,39 @@ Dashboard
             <div class="col-xl-4 col-sm-6 col-12">
               <div class="dashboard-summery-one mg-b-20">
                 <div class="row align-items-center">
-                  <div class="col-6">
+                  <div class="col-2">
                     <div class="item-icon bg-light-blue">
                       <i
-                        class="flaticon-checklist text-blue"
+                        class="flaticon-mortarboard text-blue"
                       ></i>
                     </div>
                   </div>
-                  <div class="col-6">
+                  <div class="col-10">
                     <div class="item-content">
-                      <div class="item-title">Class</div>
+                      <div class="item-title">College</div>
                       <div class="item-number">
-                        <span >{{ $class ?? '' }}</span>
+                        <span >{{ $studentEnrollment->College->college_name ?? '' }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-4 col-sm-6 col-12">
+              <div class="dashboard-summery-one mg-b-20">
+                <div class="row align-items-center">
+                  <div class="col-2">
+                    <div class="item-icon bg-light-magenta">
+                      <i
+                        class="flaticon-checklist text-magenta"
+                      ></i>
+                    </div>
+                  </div>
+                  <div class="col-10">
+                    <div class="item-content">
+                      <div class="item-title">Major</div>
+                      <div class="item-number">
+                        <span >{{ $studentEnrollment->Major->major ?? '' }}</span>
                       </div>
                     </div>
                   </div>
@@ -43,15 +77,15 @@ Dashboard
               <div class="dashboard-summery-one mg-b-20">
                 <div class="row align-items-center">
                   <div class="col-6">
-                    <div class="item-icon bg-light-green">
-                      <i class="flaticon-open-book text-green"></i>
+                    <div class="item-icon bg-light-green3">
+                      <i class="flaticon-open-book text-green3"></i>
                     </div>
                   </div>
                   <div class="col-6">
                     <div class="item-content">
-                      <div class="item-title">Total Subjects</div>
+                      <div class="item-title">Total Enrolled Courses</div>
                       <div class="item-number">
-                        <span class="counter" data-num="{{$subject_count ?? ''}}">{{ $subject_count ?? '' }}</span>
+                        <span>{{ $courseEnrollmentCount ?? '' }}</span>
                       </div>
                     </div>
                   </div>
@@ -62,15 +96,21 @@ Dashboard
               <div class="dashboard-summery-one mg-b-20">
                 <div class="row align-items-center">
                   <div class="col-6">
-                    <div class="item-icon bg-light-red">
-                      <i class="flaticon-money text-red text-center"></i>
+                    @if($studentBalance == 0)
+                      <div class="item-icon bg-light-green">
+                        <i class="flaticon-money text-green text-center"></i>
+                      </div>
+                    @else
+                      <div class="item-icon bg-light-red">
+                        <i class="flaticon-money text-red text-center"></i>
                     </div>
+                    @endif
                   </div>
                   <div class="col-6">
                     <div class="item-content">
                       <div class="item-title">Tuition Balance</div>
                       <div class="item-number">
-                        <span class="counter" data-num="{{$classes_count ?? ''}}">{{$classes_count ?? ''}}</span>
+                        <span>$ {{$studentBalance ?? ''}}</span>
                       </div>
                     </div>
                   </div>
@@ -79,23 +119,4 @@ Dashboard
             </div>
           </div>
           <!-- Dashboard summery End Here -->
-          <!-- Dashboard Content Start Here -->
-          <div class="row gutters-20">
-            <div class="col-12 col-xl-6 col-4-xxxl">
-              <div class="card dashboard-card-four pd-b-20">
-                <div class="card-body">
-                  <div class="heading-layout1">
-                    <div class="item-title">
-                      <h3>Event Calender</h3>
-                    </div>
-               
-                  </div>
-                  <div class="calender-wrap">
-                    <div id="fc-calender" class="fc-calender"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-        </div>
-    <!-- Dashboard Content End Here -->
 @endsection

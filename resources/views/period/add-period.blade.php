@@ -35,9 +35,9 @@ Add Period
                                             @if(!$semesters->isEmpty())
                                                 @foreach($semesters as $semester)
                                                     @if(old('semester') == $semester->id)
-                                                        <option value="{{ $semester->id }}" selected>{{ $semester->AcademicYear->year }} Sem.{{ $semester->semester }}</option>
+                                                        <option value="{{ $semester->id }}" selected>{{ $semester->AcademicYear->year }} {{ $semester->semester }}</option>
                                                     @else
-                                                        <option value="{{ $semester->id }}">{{ $semester->AcademicYear->year }} Sem.{{ $semester->semester }}</option>
+                                                        <option value="{{ $semester->id }}">{{ $semester->AcademicYear->year }} {{ $semester->semester }}</option>
                                                     @endif   
                                                 @endforeach
                                             @endif
@@ -60,7 +60,7 @@ Add Period
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
                                     <label>Period <span class="required">*</span></label>
-                                    <input type="number" name="period" value="{{ old('period') }}" class="form-control" maxlength="30" placeholder="Enter Period" required autocomplete autofocus>
+                                    <input type="text" name="period" value="{{ old('period') }}" class="form-control" maxlength="30" placeholder="Enter Period" required autocomplete autofocus>
                                     @error('period')
                                       <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

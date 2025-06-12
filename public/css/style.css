@@ -1252,7 +1252,7 @@ h6 {
   border: none;
 }
 .btn-hover-bluedark:hover {
-  background: #042954;
+  background: #001937;
 }
 .btn-hover-yellow:hover {
   background: #ff9d01;
@@ -1467,7 +1467,7 @@ ul {
 }
 .nav-bar-header-one {
 /*  background: linear-gradient(to right, #ff9d01, #ffaa01);*/
-  background: #0678be !important;
+/*  background: #0678be !important;*/
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -2008,7 +2008,7 @@ ul {
 }
 .header-main-menu .navbar-nav .header-admin .dropdown-menu .item-header {
   text-align: center;
-  background-color: #ffa001;
+  background-color: #8f8c00;
   padding: 20px 25px;
   border-radius: 4px 4px 0 0;
   position: relative;
@@ -2017,7 +2017,7 @@ ul {
   content: "";
   height: 0;
   width: 0;
-  border-bottom: 10px solid #ffa001;
+  border-bottom: 10px solid #8f8c00;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   position: absolute;
@@ -2085,7 +2085,7 @@ ul {
   flex-direction: column;
 }
 .sidebar-menu-one .sidebar-menu-content .nav-sidebar-menu > .nav-item {
-  border-bottom: 1px solid #021933;
+  border-bottom: 1px solid #2d3033;
 }
 .sidebar-menu-one .sidebar-menu-content .nav-sidebar-menu > .nav-item > .nav-link {
   position: relative;
@@ -2115,7 +2115,7 @@ ul {
 }
 .sidebar-menu-one .sidebar-menu-content .nav-sidebar-menu > .nav-item .sub-group-menu {
   display: none;
-  background-color: #00528f;
+  background-color: #2d3033;
   padding: 10px 0;
 }
 .sidebar-menu-one .sidebar-menu-content .nav-sidebar-menu > .nav-item .sub-group-menu > .nav-item .nav-link {
@@ -3330,7 +3330,7 @@ ul {
   /* background-image: url('img/figure/login-bg.jpg');
   background-repeat: no-repeat;
   background-position: top; */
-  background-color: #042954;
+  background-color: #343a40;
   position: fixed;
   top: 0;
   bottom: 0;
@@ -3461,7 +3461,7 @@ ul {
   display: block;
   font-weight: 700;
   color: #ffffff;
-  background: #042954;
+  background: #000;
   border-radius: 4px;
   padding: 16px 10px;
   z-index: 1;
@@ -4237,7 +4237,7 @@ ul {
   background-color: #997f75;
 }
 .sidebar-color {
-  background-color: #08447a;
+  background-color: #343a40;
 }
 .bg-gradient-fb {
   background: -webkit-gradient(linear, left top, right top, from(#546ca9), to(#5c77bc));
@@ -4264,7 +4264,7 @@ ul {
   background: linear-gradient(to right, #1565c0, #314ce0);
 }
 .btn-gradient-yellow {
-  background-color: #ffae01;
+  background-color: #8f8c00;
 }
 .btn-gradient-blue {
   background-color: #0678be;
@@ -5084,4 +5084,10 @@ ul {
 }
 .text-orange-red {
   color: #ff0000;
+}
+.bg-dark {
+  background-color: #000000 !important;
+}
+label.error {
+    color: red;
 }

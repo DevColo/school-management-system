@@ -1,65 +1,98 @@
-@extends('layouts.app')
+<!doctype html>
+<html class="no-js" lang="">
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Projal University College | Login</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('img/logo.png') }}">
+    <!-- Normalize CSS -->
+    <link rel="stylesheet" href="{{ asset('css/normalize.css') }}">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="{{ asset('css/all.min.css') }}">
+    <!-- Flaticon CSS -->
+    <link rel="stylesheet" href="{{ asset('fonts/flaticon.css') }}">
+    <!-- Animate CSS -->
+    <link rel="stylesheet" href="{{ asset('css/animate.min.css') }}">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+    <!-- Modernize js -->
+    <script src="{{ asset('js/modernizr-3.6.0.min.js') }}"></script>
+</head>
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('password.update') }}">
-                        @csrf
-
-                        <input type="hidden" name="token" value="{{ $token }}">
-
-                        <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                            </div>
-                        </div>
-
-                        <div class="row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Reset Password') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+<body>
+    <!-- Preloader Start Here -->
+    <div id="preloader"></div>
+    <!-- Preloader End Here -->
+    <!-- Login Page Start Here -->
+    <div class="login-page-wrap">
+        <div class="login-page-content">
+            <div class="login-box">
+                <div class="item-logo">
+                    <img width="100px" height="100px" src="{{ asset('img/logo.png') }}" alt="logo">
                 </div>
-            </div>
+                <form method="POST" action="{{ route('password.confirm') }}" class="login-form">
+                    @csrf
+                    {{ __('Please confirm your password before continuing.') }}
+
+                    <div class="form-group">
+                        <label>{{ __('Email Address') }}</label>
+                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
+                        <i class="fas fa-envelope"></i>
+                        @error('email')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label>{{ __('Password') }}</label>
+                        <input id="password" placeholder="Enter new password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                        <i class="fas fa-lock"></i>
+                        @error('password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label>{{ __('Confirm Password') }}</label>
+                        <input id="password-confirm" placeholder="Re-type new password" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                        <i class="fas fa-lock"></i>
+                        @error('password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="login-btn">{{ __('Reset Password') }}</button>
+                    </div>
+                </form>
+            </div>   
         </div>
     </div>
-</div>
-@endsection
+</body>
+</html>
+
+    <!-- Login Page End Here -->
+    <!-- jquery-->
+    <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
+    <!-- Plugins js -->
+    <script src="{{ asset('js/plugins.js') }}"></script>
+    <!-- Popper js -->
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <!-- Bootstrap js -->
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <!-- Scroll Up Js -->
+    <script src="{{ asset('js/jquery.scrollUp.min.js') }}"></script>
+    <!-- Custom Js -->
+    <script src="{{ asset('js/main.js') }}"></script>

@@ -60,7 +60,7 @@ Add Semester
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
                                     <label>Semester <span class="required">*</span></label>
-                                    <input type="number" name="semester" value="{{ old('semester') }}" class="form-control" maxlength="30" placeholder="Enter Semester" required autocomplete autofocus>
+                                    <input type="text" name="semester" value="{{ old('semester') }}" class="form-control" maxlength="30" placeholder="Enter Semester" required autocomplete autofocus>
                                     @error('semester')
                                       <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

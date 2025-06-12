@@ -11,6 +11,9 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\UserAccountMail;
 
 class UserController extends Controller
 {
@@ -27,7 +30,7 @@ class UserController extends Controller
      * Method to diplay user profile page
     */
     public function userProfilePage($user_id){
-        if(Auth::user()->hasRole('superadmin') || Auth::user()->hasRole('admin') || Auth::user()->hasRole('librarian')) {
+        if(Auth::user()->hasRole('superadmin') || Auth::user()->hasRole('admin') || Auth::user()->hasRole('lecturer')) {
             $user = User::findOrFail($user_id);
             if (empty($user)) {
                 abort(400, 'User Not Found.');
@@ -43,12 +46,12 @@ class UserController extends Controller
      * Method to diplay user profile edit page
     */
     public function userProfileEditPage($user_id){
-        if(Auth::user()->hasRole('superadmin') || Auth::user()->hasRole('admin') || Auth::user()->hasRole('librarian')) {
+        if(Auth::user()->hasRole('superadmin') || Auth::user()->hasRole('admin') || Auth::user()->hasRole('lecturer')) {
             $user = User::findOrFail($user_id);
             if (empty($user)) {
                 abort(400, 'User Not Found.');
             }
-            $user_detail = DB::table('user_detail')->where('user_id',Auth::user()->id)->get();
+            $user_detail = DB::table('user_detail')->where('user_id',$user_id)->get();
             return view('admin.edit-admin-profile', compact('user_detail','user'));
         }else{
             abort(403, 'Unauthorized access.');
@@ -72,9 +75,9 @@ class UserController extends Controller
         ]);
         if ($validatedFields->fails()) {
             if ($request->input('user_id') == Auth::user()->id) {
-                \Session::flash('msgErr','Oops! Your profile was not updated, try again.' );
+                \Session::flash('msgErr','Your profile was not updated, try again.' );
             }else{
-                \Session::flash('msgErr','Oops! User profile was not updated, try again.' );
+                \Session::flash('msgErr','User profile was not updated, try again.' );
             }
             
 
@@ -107,9 +110,9 @@ class UserController extends Controller
             $user->email = $request->input('email');
             $user->update();
             if ($request->input('user_id') == Auth::user()->id) {
-                \Session::flash('msg','Success! Your profile was updated successfully.' );
+                \Session::flash('msg','Your profile was updated successfully.' );
             }else{
-                \Session::flash('msg','Success! User profile was updated successfully.' );
+                \Session::flash('msg','User profile was updated successfully.' );
             }
              
 
@@ -121,7 +124,7 @@ class UserController extends Controller
      * Method to diplay change password form
     */
     public function changePasswordForm($user_id){
-        if(Auth::user()->hasRole('superadmin') || Auth::user()->hasRole('admin') || Auth::user()->hasRole('librarian') || Auth::user()->hasRole('student')) {
+        if(Auth::user()->hasRole('superadmin') || Auth::user()->hasRole('admin') || Auth::user()->hasRole('lecturer') || Auth::user()->hasRole('student')) {
             $user = User::findOrFail($user_id);
             if (empty($user)) {
                 abort(400, 'User Not Found.');
@@ -137,12 +140,12 @@ class UserController extends Controller
      * Method to change password
     */
     public function changePassword(Request $request){
-        if(Auth::user()->hasRole('superadmin') || Auth::user()->hasRole('admin') || Auth::user()->hasRole('librarian') || Auth::user()->hasRole('student')) {
+        if(Auth::user()->hasRole('superadmin') || Auth::user()->hasRole('admin') || Auth::user()->hasRole('lecturer') || Auth::user()->hasRole('student')) {
            $validatedFields = Validator::make($request->all(), [
                 'password' => ['required', 'string', 'min:6', 'confirmed']
             ]);
             if ($validatedFields->fails()) {
-                \Session::flash('msgErr','Oops! Your password was not changed, try again.' );
+                \Session::flash('msgErr','Your password was not changed, try again.' );
                 return redirect()->back()->withErrors($validatedFields->errors())->withInput();
             }else{
                 $user_id = $request->input('user_id');
@@ -150,7 +153,7 @@ class UserController extends Controller
                 $user->password = Hash::make($request->input('password'));
                 $user->update();
 
-                \Session::flash('msg','Success! Your password was changed successfully.' );
+                \Session::flash('msg','Your password was changed successfully.' );
                 return redirect()->back();
             }
         }else{
@@ -164,7 +167,8 @@ class UserController extends Controller
     */
     public function addAdminForm(){
         if(Auth::user()->hasRole('superadmin') || Auth::user()->hasRole('admin')) {
-            return view('admin.add-admin-form');
+            $roles = Role::whereNotIn('name', ['student','superadmin','guest','librarian'])->get();
+            return view('admin.add-admin-form', compact('roles'));
         }else{
             abort(403, 'Unauthorized access.');
         }
@@ -174,13 +178,14 @@ class UserController extends Controller
      * Method to add admin
     */
     public function addAdmin(Request $request){
-        if(Auth::user()->hasRole('superadmin') || Auth::user()->hasRole('admin') || Auth::user()->hasRole('librarian') || Auth::user()->hasRole('student')) {
+        if(Auth::user()->hasRole('superadmin') || Auth::user()->hasRole('admin') || Auth::user()->hasRole('lecturer') || Auth::user()->hasRole('student')) {
             $validatedFields = Validator::make($request->all(), [
                 'user_name'  => ['required', 'string', 'max:30', 'unique:users'],
                 'first_name' => ['required', 'string', 'max:30'],
                 'other_name' => ['nullable','max:30'],
                 'last_name'  => ['required', 'string', 'max:30'],
                 'gender'     => ['required', 'string'],
+                'role'     => ['required', 'string'],
                 'job_title'  => ['nullable','max:30'],
                 'email'      => ['nullable','max:30','unique:users'],
                 'phone'      => ['nullable','max:14'],
@@ -189,7 +194,7 @@ class UserController extends Controller
                 'password' => ['required', 'string', 'min:6']
             ]);
             if ($validatedFields->fails()) {
-                \Session::flash('msgErr','Oops! user was not registered, try again.' );
+                \Session::flash('msgErr','user was not registered, try again.' );
                 return redirect()->back()->withErrors($validatedFields->errors())->withInput();
             }else{
                 // upload profile image
@@ -208,8 +213,8 @@ class UserController extends Controller
                     'status' => 1,
                 ]);
 
-                // assign admin role
-                $user->assignRole('admin');
+                // assign user role
+                $user->assignRole($request->input('role'));
 
                 $newUser = DB::table('users')->where('user_name',$request->input('user_name'))->select('*')->get();
 
@@ -235,9 +240,18 @@ class UserController extends Controller
                         ]);
                     }
 
-                    \Session::flash('msg','Success! User has been registered successfully.' );
+                    if (!empty($request->input('email'))) {
+                        $message = "Hi ". $request->input('last_name').", your ".$request->input('role')." account has been created successfully."; 
+                        $message .= "\nYour login credentials:"; 
+                        $message .= "\nusername: ".$request->input('user_name');  
+                        $message .= "\npassword: ".$request->input('password');  
+
+                        Mail::to($user->email)->send(new UserAccountMail($message));
+                    }
+
+                    \Session::flash('msg','User has been registered successfully.' );
                 }else{
-                    \Session::flash('msgWrn','Success! User has been registered successfully.' );
+                    \Session::flash('msgWrn','User has been registered successfully.' );
                 }
                 
                 return redirect()->back();
@@ -283,127 +297,85 @@ class UserController extends Controller
     /***
      * Method to display admins list
     */
-    public function viewAdminList(){
-        if(Auth::user()->hasRole('superadmin') || Auth::user()->hasRole('admin')) {   
-        if(request()->ajax()){
-            return datatables()->of(User::latest()->get())
-                ->addColumn('first_name', function($data){  
-                    $output = '';
-                    $result = DB::table('user_detail')->where('user_id', $data->id)->get();           
-                    if (!empty($result[0]->first_name)) {
-                        $output = $result[0]->first_name;
-                    }
-                    return  $output;
+    public function viewAdminList()
+{
+    if (Auth::user()->hasRole('superadmin') || Auth::user()->hasRole('admin')) {
+        if (request()->ajax()) {
+            // Fetch only users with role 'superadmin' or 'admin'
+            $admins = User::whereHas('roles', function ($query) {
+                $query->where('name', '!=', 'student');
+            })->latest()->get();
+
+            return datatables()->of($admins)
+                ->addColumn('first_name', function ($data) {
+                    return DB::table('user_detail')->where('user_id', $data->id)->value('first_name') ?? '';
                 })
-                ->addColumn('other_name', function($data){  
-                    $output = '';
-                    $result = DB::table('user_detail')->where('user_id', $data->id)->get();           
-                    if (!empty($result[0]->other_name)) {
-                        $output = $result[0]->other_name;
-                    }
-                    return  $output;
+                ->addColumn('other_name', function ($data) {
+                    return DB::table('user_detail')->where('user_id', $data->id)->value('other_name') ?? '';
                 })
-                ->addColumn('last_name', function($data){  
-                    $output = '';
-                    $result = DB::table('user_detail')->where('user_id', $data->id)->get();           
-                    if (!empty($result[0]->last_name)) {
-                        $output = $result[0]->last_name;
-                    }
-                    return  $output;
+                ->addColumn('last_name', function ($data) {
+                    return DB::table('user_detail')->where('user_id', $data->id)->value('last_name') ?? '';
                 })
-                ->addColumn('gender', function($data){  
-                    $output = '';
-                    $result = DB::table('user_detail')->where('user_id', $data->id)->get();           
-                    if (!empty($result[0]->gender)) {
-                        $output = ($result[0]->gender == 'f')? 'Female':'Male';
-                    }
-                    return  $output;
+                ->addColumn('gender', function ($data) {
+                    $gender = DB::table('user_detail')->where('user_id', $data->id)->value('gender');
+                    return $gender === 'f' ? 'Female' : ($gender === 'm' ? 'Male' : '');
                 })
-                ->addColumn('job_title', function($data){  
-                    $output = '';
-                    $result = DB::table('user_detail')->where('user_id', $data->id)->get();           
-                    if (!empty($result[0]->job_title)) {
-                        $output = $result[0]->job_title;
-                    }
-                    return  $output;
+                ->addColumn('job_title', function ($data) {
+                    return DB::table('user_detail')->where('user_id', $data->id)->value('job_title') ?? '';
                 })
-                ->addColumn('phone', function($data){  
-                    $output = '';
-                    $result = DB::table('user_detail')->where('user_id', $data->id)->get();           
-                    if (!empty($result[0]->phone)) {
-                        $output = $result[0]->phone;
-                    }
-                    return  $output;
+                ->addColumn('phone', function ($data) {
+                    return DB::table('user_detail')->where('user_id', $data->id)->value('phone') ?? '';
                 })
-                ->addColumn('address', function($data){  
-                    $output = '';
-                    $result = DB::table('user_detail')->where('user_id', $data->id)->get();           
-                    if (!empty($result[0]->address)) {
-                        $output = $result[0]->address;
-                    }
-                    return  $output;
+                ->addColumn('address', function ($data) {
+                    return DB::table('user_detail')->where('user_id', $data->id)->value('address') ?? '';
                 })
-                ->addColumn('address', function($data){  
-                    $output = '';
-                    $result = DB::table('user_detail')->where('user_id', $data->id)->get();           
-                    if (!empty($result[0]->address)) {
-                        $output = $result[0]->address;
-                    }
-                    return  $output;
+                ->addColumn('status', function ($data) {
+                    $class = $data->status == 1 ? 'btn-success' : 'btn-danger';
+                    $status = $data->status == 1 ? 'Active' : 'Inactive';
+                    return '<a href="#" class="' . $class . ' white-text delete btn">' . $status . '</a>';
                 })
-                ->addColumn('status', function($data){             
-                    if ($data->status == 1) {
-                        $class = 'btn-success';
-                        $status = 'Active'; 
-                    }else{
-                        $status='Inactive';
-                        $class = 'btn-danger';
-                    }
-                    $status_btn = '<a href="#" class="'.$class.' white-text delete btn">'.$status.'</a>'; 
-                    return  $status_btn;
-                })
-                ->addColumn('action', function($data){
-                    $viewUrl = url('user-profile/'.$data->id);
-                    $editUrl = url('account-setting/'.$data->id);
-                    $changePassword = url('change-password/'.$data->id);
-                    $deleteUrl = url('delete-user/'.$data->id);
-                    $button = '<a class="" title="View Profile" href="'.$viewUrl.'">
-                                <i class="fa fa-eye text-orange"></i>
+                ->addColumn('action', function ($data) {
+                    $viewUrl = url('user-profile/' . $data->id);
+                    $editUrl = url('account-setting/' . $data->id);
+                    $changePassword = url('change-password/' . $data->id);
+                    $deleteUrl = url('delete-user/' . $data->id);
+
+                    $button = '<a title="View Profile" href="' . $viewUrl . '">
+                                    <i class="fa fa-eye text-orange"></i>
                                 </a>';
-                    $button .= '&nbsp;';
-                    $button .= '<a class="" title="Account Setting" href="'.$editUrl.'">
+                    $button .= '&nbsp;<a title="Account Setting" href="' . $editUrl . '">
                                     <i class="fas fa-cogs text-dark-pastel-blue"></i>
                                 </a>';
-                    $button .= '&nbsp;';
-                    $button .= '<a class="" title="Change Password" href="'.$changePassword.'">
+                    $button .= '&nbsp;<a title="Change Password" href="' . $changePassword . '">
                                     <i class="fas fa-key text-secondary"></i>
                                 </a>';
-                    $button .= '&nbsp;';
+                    
                     if ($data->status == 1) {
-                        $button .= '<a onclick="deactivateUser('.$data->id.')" title="Deactivate User" href="javascript:void(0);">
-                                <i class="fa fa-times-circle text-orange-red"></i>
-                                </a>';
-                        $button .= '&nbsp;';
-                    }else{
-                        $button .= '<a onclick="activateUser('.$data->id.')" class="activate_user" href="javascript:void(0);" title="Activate User">
-                                <i class="fa fa-check text-green"></i>
-                                </a>';
-                        $button .= '&nbsp;';
+                        $button .= '&nbsp;<a onclick="deactivateUser(' . $data->id . ')" title="Deactivate User" href="javascript:void(0);">
+                                        <i class="fa fa-times-circle text-orange-red"></i>
+                                    </a>';
+                    } else {
+                        $button .= '&nbsp;<a onclick="activateUser(' . $data->id . ')" class="activate_user" href="javascript:void(0);" title="Activate User">
+                                        <i class="fa fa-check text-green"></i>
+                                    </a>';
                     }
-                    $button .= '<a class="" title="Delete" href="'.$deleteUrl.'">
-                                <i class="fa fa-trash text-orange-red" aria-hidden="true"></i>
-                                </a>';
-                    return $button;
 
+                    $button .= '&nbsp;<a title="Delete" href="' . $deleteUrl . '">
+                                    <i class="fa fa-trash text-orange-red"></i>
+                                </a>';
+
+                    return $button;
                 })
-                ->rawColumns(['first_name','other_name','last_name','action','status'])
+                ->rawColumns(['first_name', 'other_name', 'last_name', 'action', 'status'])
                 ->make(true);
-            }            
-            return view('admin.admin-list');
-        }else{
-            abort(403, 'Unauthorized access.');
         }
+
+        return view('admin.admin-list');
+    } else {
+        abort(403, 'Unauthorized access.');
     }
+}
+
 
     /***
      * Method to activate user
@@ -412,7 +384,7 @@ class UserController extends Controller
         if(Auth::user()->hasRole('superadmin') || Auth::user()->hasRole('admin')) {
             $user = User::findOrFail($request->input('user_id'));
             if (!empty($user)) {
-                $user->assignRole('admin');
+                $user->assignRole('lecturer');
                 $user->status = 1;
                 $user->update();
                 return json_encode(['msg' => 'success']);
@@ -432,7 +404,7 @@ class UserController extends Controller
         if(Auth::user()->hasRole('superadmin') || Auth::user()->hasRole('admin')) {
             $user = User::findOrFail($request->input('user_id'));
             if (!empty($user)) {
-                $user->roles()->detach();
+                //$user->roles()->detach();
                 $user->status = 0;
                 $user->update();
                 return json_encode(['msg' => 'success']);
@@ -444,5 +416,4 @@ class UserController extends Controller
             return json_encode(['msg' => 'unauthorized']);
         }
     }
-
 }

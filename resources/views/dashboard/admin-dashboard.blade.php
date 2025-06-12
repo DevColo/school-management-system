@@ -1,6 +1,6 @@
 @extends('layouts.backend-layout')
 @section('title')
-Dashboard
+Admin Dashboard
 @endsection('title')
 @section('content')
 
@@ -10,9 +10,9 @@ Dashboard
             <h3>Admin Dashboard</h3>
             <ul>
               <li>
-                <a href="index.html">Home</a>
+                <a href="{{ route('home') }}">Home</a>
               </li>
-              <li>Admin</li>
+              <li>Admin Dashboard</li>
             </ul>
           </div>
           <!-- Breadcubs Area End Here -->
@@ -38,7 +38,7 @@ Dashboard
                 </div>
               </div>
             </div>
-            <!-- <div class="col-xl-4 col-sm-6 col-12">
+            <div class="col-xl-4 col-sm-6 col-12">
               <div class="dashboard-summery-one mg-b-20">
                 <div class="row align-items-center">
                   <div class="col-6">
@@ -50,15 +50,15 @@ Dashboard
                   </div>
                   <div class="col-6">
                     <div class="item-content">
-                      <div class="item-title">Librarians</div>
+                      <div class="item-title">Lecturers</div>
                       <div class="item-number">
-                        <span class="counter" data-num="0">0</span>
+                        <span class="counter" data-num="{{ $lecturer_count ?? '' }}">{{ $lecturer_count ?? '' }}</span>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div> -->
+            </div>
             <div class="col-xl-4 col-12 col-18">
               <div class="dashboard-summery-one mg-b-20">
                 <div class="row align-items-center">
@@ -88,9 +88,28 @@ Dashboard
                   </div>
                   <div class="col-6">
                     <div class="item-content">
-                      <div class="item-title">Classes</div>
+                      <div class="item-title">Courses</div>
                       <div class="item-number">
-                        <span class="counter" data-num="{{$classes_count ?? ''}}">{{ $classes_count ?? ''}}</span>
+                        <span class="counter" data-num="{{$courses_count ?? ''}}">{{ $courses_count ?? ''}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-4 col-12 col-18">
+              <div class="dashboard-summery-one mg-b-20">
+                <div class="row align-items-center">
+                  <div class="col-6">
+                    <div class="item-icon bg-light-blue">
+                      <i class="flaticon-books text-blue text-center"></i>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="item-content">
+                      <div class="item-title">Colleges</div>
+                      <div class="item-number">
+                        <span class="counter" data-num="{{$colleges_count ?? ''}}">{{ $colleges_count ?? ''}}</span>
                       </div>
                     </div>
                   </div>

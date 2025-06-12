@@ -1,73 +1,233 @@
-@extends('layouts.app')
+<!doctype html>
+<html class="no-js" lang="">
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Skoology | Login</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('img/skoology-black.png') }}">
+    <!-- Normalize CSS -->
+    <link rel="stylesheet" href="{{ asset('css/normalize.css') }}">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="{{ asset('css/all.min.css') }}">
+    <!-- Flaticon CSS -->
+    <link rel="stylesheet" href="{{ asset('fonts/flaticon.css') }}">
+    <!-- Animate CSS -->
+    <link rel="stylesheet" href="{{ asset('css/animate.min.css') }}">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+    <!-- Modernize js -->
+    <script src="{{ asset('js/modernizr-3.6.0.min.js') }}"></script>
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
 
-                        <div class="row mb-3">
-                            <label for="user_name" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
+        .login-page-wrap {
+            display: flex;
+            min-height: 100vh;
+        }
 
-                            <div class="col-md-6">
-                                <input id="user_name" type="text" class="form-control @error('user_name') is-invalid @enderror" name="user_name" value="{{ old('user_name') }}" required autofocus>
+        .left-side {
+            flex: 1;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
 
-                                @error('user_name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+        .left-side img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .right-side {
+            flex: 1;
+            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .item-logo img {
+            width: 250px;
+            height: 150px;
+            display: block;
+            margin: 0 auto 30px auto;
+        }
+
+        @media (max-width: 768px) {
+            .login-page-wrap {
+                flex-direction: column;
+            }
+
+            .left-side {
+                display: none; /* Hide image on mobile */
+            }
+
+            .right-side {
+                flex: none;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Preloader -->
+    <div id="preloader"></div>
+
+    <!-- Login Page Layout -->
+    <div class="login-page-wrap">
+
+        <!-- Left Side Image -->
+        <div class="left-side">
+            <img src="{{ asset('img/bg.jpg') }}" alt="RKPS Image">
+        </div>
+
+        <!-- Right Side Login Form -->
+        <div class="right-side">
+            <div class="login-box">
+                <div class="item-logo">
+                    <img src="{{ asset('img/skoology-black.png') }}" alt="Skoology Logo">
+                </div>
+
+                <!-- <form method="POST" action="{{ route('login') }}" class="login-form">
+                    @csrf
+
+                    @error('user_name')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+
+                    <div class="form-group">
+                        <label>Username/ID</label>
+                        <input type="text" name="user_name" value="{{ old('user_name') }}"
+                               class="form-control @error('user_name') is-invalid @enderror"
+                               placeholder="Enter username or ID" required autofocus>
+                        <i class="far fa-envelope"></i>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" name="password"
+                               class="form-control @error('password') is-invalid @enderror"
+                               placeholder="Enter password" required autocomplete="current-password">
+                        <i class="fas fa-lock"></i>
+
+                        @error('password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group d-flex align-items-center justify-content-between">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="remember-me" name="remember"
+                                {{ old('remember') ? 'checked' : '' }}>
+                            <label for="remember-me" class="form-check-label">Remember Me</label>
                         </div>
+                        <a href="#" data-toggle="modal" data-target="#forget-password" class="forgot-btn">Forgot Password?</a>
+                    </div>
 
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
+                    <div class="form-group">
+                        <button type="submit" class="login-btn btn btn-primary btn-block">Login</button>
+                    </div>
+                </form> -->
+                <form method="POST" action="{{ route('login') }}" class="login-form">
+                    @csrf
 
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+                    @error('user_name')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                    <div class="form-group">
+                        <label>Username/ID</label>
+                        <input type="text" placeholder="Enter usrename or ID" class="form-control @error('user_name') is-invalid @enderror" name="user_name" value="{{ old('user_name') }}" required autofocus>
+                        <i class="far fa-envelope"></i>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" placeholder="Enter password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                        <i class="fas fa-lock"></i>
+                        @error('password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="form-group d-flex align-items-center justify-content-between">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="remember-me" name="remember" {{ old('remember') ? 'checked' : '' }}>
+                            <label for="remember-me" class="form-check-label">Remember Me</label>
                         </div>
+                        <a href="#"  data-toggle="modal" data-target="#forget-password" class="forgot-btn ">Forgot Password?</a>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="login-btn">Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
-                        <div class="row mb-3">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+    </div>
 
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
-                                    </label>
-                                </div>
-                            </div>
+    <!-- Forget Password Modal -->
+    <div class="modal sign-up-modal fade" id="forget-password" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="close-btn">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="item-logo">
+                        <img src="{{ asset('img/schooLogo.jpeg') }}" alt="logo"
+                             style="display: block; margin: auto; width: 250px; height: 150px;">
+                    </div>
+                    <form class="login-form">
+                        <div class="form-group col-12">
+                            <input type="email" required placeholder="Enter E-mail" class="form-control">
                         </div>
-
-                        <div class="row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
-
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
-                            </div>
+                        <div class="form-group col-12">
+                            <button type="submit" class="forget-password-btn btn btn-primary btn-block">Send Email</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-</div>
-@endsection
+
+    <!-- JS Files -->
+    <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ asset('js/plugins.js') }}"></script>
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.scrollUp.min.js') }}"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
+
+</body>
+
+</html>

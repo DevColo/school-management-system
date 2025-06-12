@@ -10,7 +10,7 @@
     <!-- Normalize CSS -->
     <link rel="stylesheet" href="{{ asset('css/normalize.css') }}" />
     <!-- School Logo -->
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('img/skoology-black.png') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('img/logo.png') }}">
     <!-- Main CSS -->
     <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
     <!-- Bootstrap CSS -->
@@ -37,15 +37,16 @@
     <!-- Preloader End Here -->
     <div id="wrapper" class="wrapper bg-ash">
       <!-- Header Menu Area Start Here -->
-      <div class="navbar navbar-expand-md header-menu-one bg-light">
+      <div class="navbar navbar-expand-md header-menu-one bg-dark">
         <div class="nav-bar-header-one">
           <div class="header-logo">
             <a href="{{ route('home') }}">
               <img
-                width="160px"
-                height="100px"
-                src="{{ asset('img/skoology-white.png') }}"
+                width="50px"
+                height="50px"
+                src="{{ asset('img/white-logo.png') }}"
                 alt="logo"
+                style="border-radius: 48%;"
               />
             </a>
           </div>
@@ -97,9 +98,9 @@
                       <span>Admin</span>
                     @endrole
                   @endif
-                  @hasrole('librarian')
+                  @hasrole('lecturer')
                     <h5 class="item-title">{{ Auth::user()->user_name ?? '' }}</h5>
-                    <span>Librarian</span>
+                    <span>Lecturer</span>
                   @endrole
                   @hasrole('student')
                     <h5 class="item-title">{{ Auth::user()->user_name ?? '' }}</h5>
@@ -109,6 +110,8 @@
                 <div class="admin-img">
                   @if (auth()->user()->hasAnyRole(['superadmin', 'admin']))
                     <img src="{{ asset('admin_img')}}/{{ Auth::user()->profile_image ?? 'avatar.jpg' }}" width="200" height="150" alt="Admin" />
+                  @elseif (auth()->user()->hasAnyRole(['lecturer']))
+                     <img src="{{ asset('admin_img')}}/{{ Auth::user()->profile_image ?? 'avatar.jpg' }}" width="200" height="150" alt="Admin" />
                   @elseif (auth()->user()->hasAnyRole(['student']))
                      <img src="{{ asset('student_img')}}/{{ Auth::user()->profile_image ?? 'avatar.jpg' }}" width="200" height="150" alt="Admin" />
                   @endif
@@ -121,7 +124,7 @@
                 </div>
                 <div class="item-content">
                   <ul class="settings-list">
-                    @if (auth()->user()->hasAnyRole(['superadmin', 'admin']))
+                    @if (auth()->user()->hasAnyRole(['superadmin', 'admin', 'lecturer']))
                       <li>
                         <a href="{{ route('user-profile',Auth::user()->id) }}"><i class="flaticon-user"></i>My Profile</a>
                       </li>
@@ -196,12 +199,12 @@
                   <ul class="nav sub-group-menu">
                     <li class="nav-item">
                       <a href="{{ route('add-admin-form') }}" class="nav-link"
-                        >Add Administrator</a
+                        ><i class="fas fa-angle-right"></i>Add Administrator</a
                       >
                     </li>
                     <li class="nav-item">
                       <a href="{{ route('admin-list') }}" class="nav-link"
-                        >Administrators List</a
+                        ><i class="fas fa-angle-right"></i>Administrators List</a
                       >
                     </li>
                   </ul>
@@ -213,52 +216,98 @@
                   <ul class="nav sub-group-menu">
                     <li class="nav-item">
                       <a href="{{ route('add-student') }}" class="nav-link"
-                        >Add Student</a
+                        ><i class="fas fa-angle-right"></i>Add Student</a
                       >
                     </li>
                     <li class="nav-item">
                       <a href="{{ route('student-list') }}" class="nav-link"
-                        >Student List</a
+                        ><i class="fas fa-angle-right"></i>Student List</a
                       >
                     </li>
                   </ul>
                 </li>
-                <!-- <li class="nav-item sidebar-nav-item">
-                  <a href="#" class="nav-link"
-                    ><i class="flaticon-multiple-users-silhouette"></i
-                    ><span>Librarian</span></a
-                  >
-                  <ul class="nav sub-group-menu">
-                    <li class="nav-item">
-                      <a href="all-librarian.html" class="nav-link"
-                        >All Librarian</a
-                      >
-                    </li>
-                    <li class="nav-item">
-                      <a href="add-librarian.html" class="nav-link"
-                        >Add Librarian</a
-                      >
-                    </li>
-                  </ul>
-                </li> -->
 
-                <!-- <li class="nav-item sidebar-nav-item">
+                <li class="nav-item sidebar-nav-item">
                   <a href="#" class="nav-link"
-                    ><i class="flaticon-books"></i><span>Library</span></a
+                    ><i class="flaticon-books"></i><span>Course Enrollment</span></a
                   >
                   <ul class="nav sub-group-menu">
                     <li class="nav-item">
-                      <a href="all-book.html" class="nav-link"
-                        ><i class="fas fa-angle-right"></i>All Books</a
+                      <a href="{{ route('enroll-student') }}" class="nav-link"
+                        ><i class="fas fa-angle-right"></i>Enroll Student</a
                       >
                     </li>
                     <li class="nav-item">
-                      <a href="add-book.html" class="nav-link"
-                        ><i class="fas fa-angle-right"></i>Add New Book</a
+                      <a href="{{ route('enrollment-list') }}" class="nav-link"
+                        ><i class="fas fa-angle-right"></i>Enrollment List</a
                       >
                     </li>
                   </ul>
-                </li> -->
+                </li>
+
+                <!-- Colleges -->
+                <li class="nav-item sidebar-nav-item">
+                  <a href="#" class="nav-link"
+                    ><i class="flaticon-checklist"></i
+                    ><span>Colleges</span></a
+                  >
+                  <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                      <a href="{{ route('add-college') }}" class="nav-link"
+                        ><i class="fas fa-angle-right"></i>Add College</a
+                      >
+                    </li>
+                    <li class="nav-item">
+                      <a href="{{ route('college-list') }}" class="nav-link"
+                        ><i class="fas fa-angle-right"></i>College List</a
+                      >
+                    </li>
+                  </ul>
+                </li>
+
+                <!-- Majors -->
+                <li class="nav-item sidebar-nav-item">
+                  <a href="#" class="nav-link"
+                    ><i class="flaticon-open-book"></i><span>Majors</span></a
+                  >
+                  <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                      <a href="{{ route('add-major') }}" class="nav-link"
+                        ><i class="fas fa-angle-right"></i>Add Major</a>
+                    </li>
+                    <li class="nav-item">
+                      <a href="{{ route('major-list') }}" class="nav-link"
+                        ><i class="fas fa-angle-right"></i>Major List</a>
+                    </li>
+                  </ul>
+                </li>
+
+                <!-- Courses -->
+                <li class="nav-item sidebar-nav-item">
+                  <a href="#" class="nav-link"
+                    ><i class="fa fa-book"></i><span>Courses</span></a
+                  >
+                  <ul class="nav sub-group-menu">
+                    <li class="nav-item">
+                      <a href="{{ route('add-course') }}" class="nav-link"
+                        ><i class="fas fa-angle-right"></i>Add Course</a
+                      >
+                    </li>
+                    <li class="nav-item">
+                      <a href="{{ route('course-list') }}" class="nav-link"
+                        ><i class="fas fa-angle-right"></i>Course List</a>
+                    </li>
+                    <li class="nav-item">
+                      <a href="{{ route('course-assignment') }}" class="nav-link"
+                        ><i class="fas fa-angle-right"></i>Course Assignment</a>
+                    </li>
+                    <li class="nav-item">
+                      <a href="{{ route('course-assignment-list') }}" class="nav-link"
+                        ><i class="fas fa-angle-right"></i>Course Assignment List</a>
+                    </li>
+                  </ul>
+                </li>
+
                 <!-- Academic Year -->
 
                 <li class="nav-item sidebar-nav-item">
@@ -268,12 +317,12 @@
                   <ul class="nav sub-group-menu">
                      <li class="nav-item">
                       <a href="{{ route('add-year') }}" class="nav-link"
-                        >Add Academic Year</a
+                        ><i class="fas fa-angle-right"></i>Add Academic Year</a
                       >
                     </li>
                     <li class="nav-item">
                       <a href="{{ route('year-list') }}" class="nav-link"
-                        >View Academic Years</a
+                        ><i class="fas fa-angle-right"></i>View Academic Years</a
                       >
                     </li>
                   </ul>
@@ -287,69 +336,12 @@
                   <ul class="nav sub-group-menu">
                     <li class="nav-item">
                       <a href="{{ route('add-semester') }}" class="nav-link"
-                        >Add New Semester</a
+                        ><i class="fas fa-angle-right"></i>Add New Semester</a
                       >
                     </li>
                     <li class="nav-item">
                       <a href="{{ route('semester-list') }}" class="nav-link"
-                        >View Semesters</a
-                      >
-                    </li>
-                  </ul>
-                </li>
-
-                <!-- Period -->
-                <li class="nav-item sidebar-nav-item">
-                  <a href="#" class="nav-link"
-                    ><i class="flaticon-open-book"></i><span>Periods</span></a
-                  >
-                  <ul class="nav sub-group-menu">
-                    <li class="nav-item">
-                      <a href="{{ route('add-period') }}" class="nav-link"
-                        >Add New Period</a
-                      >
-                    </li>
-                    <li class="nav-item">
-                      <a href="{{ route('period-list') }}" class="nav-link"
-                        >View Periods</a
-                      >
-                    </li>
-                  </ul>
-                </li>
-
-                <!-- Class -->
-                <li class="nav-item sidebar-nav-item">
-                  <a href="#" class="nav-link"
-                    ><i class="fa fa-users"></i><span>Classes</span></a
-                  >
-                  <ul class="nav sub-group-menu">
-                    <li class="nav-item">
-                      <a href="{{ route('add-class') }}" class="nav-link"
-                        >Add New Class</a
-                      >
-                    </li>
-                    <li class="nav-item">
-                      <a href="{{ route('class-list') }}" class="nav-link"
-                        >View Classes</a
-                      >
-                    </li>
-                  </ul>
-                </li>
-
-                <!-- Subjects -->
-                <li class="nav-item sidebar-nav-item">
-                  <a href="#" class="nav-link"
-                    ><i class="fa fa-book"></i><span>Subject</span></a
-                  >
-                  <ul class="nav sub-group-menu">
-                    <li class="nav-item">
-                      <a href="{{ route('add-subject') }}" class="nav-link"
-                        >Add New Subject</a
-                      >
-                    </li>
-                    <li class="nav-item">
-                      <a href="{{ route('subject-list') }}" class="nav-link"
-                        >View Subjects</a
+                        ><i class="fas fa-angle-right"></i>View Semesters</a
                       >
                     </li>
                   </ul>
@@ -358,18 +350,12 @@
                 <!-- Grades -->
                 <li class="nav-item sidebar-nav-item">
                   <a href="#" class="nav-link"
-                    ><i class="fa fa-table"></i><span>Grades</span></a
+                    ><i class="fa fa-table"></i><span>Grades Management</span></a
                   >
                   <ul class="nav sub-group-menu">
                     <li class="nav-item">
-                      <a href="add-subject.html" class="nav-link"
-                        >Add New Grades</a
-                      >
-                    </li>
-                    <li class="nav-item">
-                      <a href="all-subject.html" class="nav-link"
-                        >All Grades</a
-                      >
+                      <a href="{{ route('grade-courses') }}" class="nav-link"
+                        ><i class="fas fa-angle-right"></i>Assigned Courses</a>
                     </li>
                   </ul>
                 </li>
@@ -382,24 +368,24 @@
                   >
                   <ul class="nav sub-group-menu">
                     <li class="nav-item">
-                      <a href="add-exam-schedule.html" class="nav-link"
-                        >Add Exam Schedule</a
+                      <a href="#" class="nav-link"
+                        ><i class="fas fa-angle-right"></i>Add Exam Schedule</a
                       >
                     </li>
                     <li class="nav-item">
-                      <a href="exam-schedule.html" class="nav-link"
-                        >Exam Schedules</a
+                      <a href="#" class="nav-link"
+                        ><i class="fas fa-angle-right"></i>Exam Schedules</a
                       >
                     </li>
                     <li class="nav-item">
-                      <a href="add-calendar.html" class="nav-link"
-                        >Add Calendar of
+                      <a href="#" class="nav-link"
+                        ><i class="fas fa-angle-right"></i>Add Calendar of
                         Events</a
                       >
                     </li>
                     <li class="nav-item">
-                      <a href="calendar.html" class="nav-link"
-                        >Calendar of Events</a
+                      <a href="#" class="nav-link"
+                        ><i class="fas fa-angle-right"></i>Calendar of Events</a
                       >
                     </li>
                   </ul>
@@ -414,64 +400,79 @@
                   <ul class="nav sub-group-menu">
                     <li class="nav-item">
                       <a href="{{ route('manage-roles') }}" class="nav-link"
-                        >Roles</a
+                        ><i class="fas fa-angle-right"></i>Roles</a
                       >
                     </li>
                     <li class="nav-item">
-                      <a href="exam-schedule.html" class="nav-link"
-                        >Permission</a
+                      <a href="{{ route('course-drop-limit') }}" class="nav-link"
+                        ><i class="fas fa-angle-right"></i>Course Drop Limit</a
                       >
                     </li>
                     <li class="nav-item">
-                      <a href="exam-schedule.html" class="nav-link"
-                        >Add Exam Schedule</a
-                      >
-                    </li>
-                    <li class="nav-item">
-                      <a href="exam-grade.html" class="nav-link"
-                        >Exam Schedules</a
-                      >
-                    </li>
-                    <li class="nav-item">
-                      <a href="exam-schedule.html" class="nav-link"
-                        >Add Calendar of
-                        Events</a
-                      >
-                    </li>
-                    <li class="nav-item">
-                      <a href="exam-grade.html" class="nav-link"
-                        >Calendar of Events</a
+                      <a href="{{ route('credit-cost-list') }}" class="nav-link"
+                        ><i class="fas fa-angle-right"></i>Course Credit Cost</a
                       >
                     </li>
                      </ul>
                   @endif
-                  <!-- Superadmin & Admin -->
-                  @if (Auth()->user()->hasAnyRole(['student']))
 
+                  <!-- Lecturer -->
+              @if (Auth()->user()->hasAnyRole(['lecturer']))
+                <!-- Courses -->
                 <li class="nav-item sidebar-nav-item">
                   <a href="#" class="nav-link"
-                    ><i class="flaticon-money"></i><span>Tuition</span></a
+                    ><i class="fa fa-book"></i><span>My Courses</span></a
                   >
                   <ul class="nav sub-group-menu">
                     <li class="nav-item">
-                      <a href="#" class="nav-link"
-                        ><i class="fas fa-angle-right"></i>Installments</a
-                      >
-                    </li>
-                    <li class="nav-item">
-                      <a href="#" class="nav-link"
-                        ><i class="fas fa-angle-right"></i>Payment History</a
+                      <a href="{{ route('my-lecturer-courses') }}" class="nav-link"
+                        ><i class="fas fa-angle-right"></i>View Courses</a
                       >
                     </li>
                   </ul>
                 </li>
 
-                <!-- Grades -->
-                <li class="nav-item">
-                  <a href="" class="nav-link"
-                    ><i class="fa fa-table"></i><span>Grade Sheet</span></a
-                  >
-                </li>
+                  @endif
+
+                  <!-- Student -->
+                  @if (Auth()->user()->hasAnyRole(['student']))
+                    <li class="nav-item sidebar-nav-item">
+                      <a href="#" class="nav-link"
+                        ><i class="flaticon-money"></i><span>Finance</span></a
+                      >
+                      <ul class="nav sub-group-menu">
+                        <li class="nav-item">
+                          <a href="#" class="nav-link"
+                            ><i class="fas fa-angle-right"></i> Tuition Installments</a
+                          >
+                        </li>
+                        <li class="nav-item">
+                          <a href="#" class="nav-link"
+                            ><i class="fas fa-angle-right"></i>Payment History</a
+                          >
+                        </li>
+                      </ul>
+                    </li>
+
+                    <li class="nav-item sidebar-nav-item">
+                      <a href="#" class="nav-link"
+                        ><i class="flaticon-checklist"></i><span>My Courses</span></a
+                      >
+                      <ul class="nav sub-group-menu">
+                        <li class="nav-item">
+                          <a href="{{ route('my-student-courses') }}" class="nav-link"
+                        ><i class="fas fa-angle-right"></i>View Courses</a
+                      >
+                        </li>
+                      </ul>
+                    </li>
+
+                    <!-- Grades -->
+                    <li class="nav-item">
+                      <a href="{{ route('my-gradesheet') }}" target="_blank" class="nav-link"
+                        ><i class="fa fa-table"></i><span>Grade Sheet</span></a
+                      >
+                    </li>
                @endif
           </div>
         </div>
@@ -481,7 +482,7 @@
             <div class="dismiss-alart">
               @if(Session::has('msg'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                  {!!Session::get('msg')!!}
+                  Success! {!!Session::get('msg')!!}
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">×</span>
                   </button>
@@ -489,7 +490,7 @@
               @endif
               @if(Session::has('msgWrn'))
                   <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                  {!!Session::get('msgWrn')!!}
+                  Warning! {!!Session::get('msgWrn')!!}
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">×</span>
                   </button>
@@ -497,7 +498,7 @@
               @endif
               @if(Session::has('msgErr'))
                   <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                  {!!Session::get('msgErr')!!}
+                  Error! {!!Session::get('msgErr')!!}
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">×</span>
                   </button>

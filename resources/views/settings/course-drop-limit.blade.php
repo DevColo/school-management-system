@@ -1,26 +1,19 @@
 @extends('layouts.backend-layout')
 @section('title')
-Add New Class
+Course Drop Limit
 @endsection('title')
-@section('css')
-    <!-- Select 2 CSS -->
-    <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
-    <!-- Date Picker CSS -->
-    <link rel="stylesheet" href="{{ asset('css/datepicker.min.css') }}">
-@endsection('css')
 @section('content')
                 <!-- Breadcubs Area Start Here -->
                 <div class="breadcrumbs-area">
-                    <h3>Add New Class</h3>
+                    <h3>Course Drop Limit</h3>
                     <ul>
                         <li>
                             <a href="{{ route('home') }}">Home</a>
                         </li>
-                        <li>Add New Class</li>
+                        <li>Course Drop Limit</li>
                     </ul>
                 </div>
                 <!-- Breadcubs Area End Here -->
-                <!-- Add New Class Area Start Here -->
                 <div class="card height-auto">
                     <div class="card-body">
                         <div class="heading-layout1">
@@ -28,21 +21,17 @@ Add New Class
                         <form class="new-added-form" method="POST">
                             @csrf
                             <div class="row">
+                                @if(!is_null($courseDropLimit))
+                                <input type="hidden" name="courseDropLimitId" value="{{ $courseDropLimit->id }}">
+                                @endif
                                 <div class="col-xl-4 col-lg-4 col-4 form-group">
-                                    <input type="hidden" name="class_id" value="{{ $class->id ?? '' }}">
-                                    <label>Class Name <span class="required">*</span></label>
-                                    <input type="text" name="class_name" value="{{ $class->class_name ?? '' }}" class="form-control" maxlength="30" placeholder="Enter Class Name" required autocomplete autofocus>
-                                    @error('class_name')
+                                    <label>Days Limit </label>
+                                    <input type="number" name="limit" value="{{ $courseDropLimit->limit ?? '' }}" class="form-control" maxlength="30" placeholder="Enter maximum days to drop courses">
+                                    @error('limit')
                                       <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                       </span>
                                     @enderror
-                                   <label for="status" style="margin-top:10px;">
-                                    
-                                    <input type="checkbox" id="status" class="pt-2" name="status" 
-                                    @if($class->status == 1) {{'checked'}} @endif
-                                    > Active
-                                   </label>
                                 </div>
                                 
                                 <div class="col-md-6 form-group"></div>

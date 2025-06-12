@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('other_name')->nullable();
             $table->string('last_name');
-            $table->string('gender');
-            $table->string('dob');
+            $table->string('gender')->nullable();
+            $table->string('dob')->nullable();
             $table->string('pob')->nullable();
             $table->string('nationality')->nullable();
             $table->string('address')->nullable();

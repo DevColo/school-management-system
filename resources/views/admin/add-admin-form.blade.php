@@ -46,6 +46,15 @@ Add New Admin
                                             @enderror
                                         </div>
                                         <div class="col-xl-6 col-lg-6 col-12 form-group">
+                                            <label>Email</label>
+                                            <input type="email" name="email" value="{{ old('email') }}" class="form-control" maxlength="30" autocomplete autofocus>
+                                            @error('email')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        <div class="col-xl-6 col-lg-6 col-12 form-group">
                                             <label>Other Name</label>
                                             <input type="text" name="other_name" value="{{ old('other_name') }}" class="form-control" maxlength="30" autocomplete autofocus>
                                             @error('other_name')
@@ -55,9 +64,27 @@ Add New Admin
                                             @enderror
                                         </div>
                                         <div class="col-xl-6 col-lg-6 col-12 form-group">
+                                            <label>Phone</label>
+                                            <input type="text" name="phone" id="phone" value="{{ old('phone') }}" class="form-control" minlength="10" maxlength="10" placeholder="000-000-000-000" pattern="[0-9]{4}[0-9]{3}[0-9]{3}" autofocus>
+                                            @error('phone')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        <div class="col-xl-6 col-lg-6 col-12 form-group">
                                             <label>Last Name <span class="required">*</span></label>
                                             <input type="text" name="last_name" value="{{ old('last_name') }}" class="form-control" maxlength="30" required autocomplete autofocus>
                                             @error('last_name')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        <div class="col-xl-6 col-lg-6 col-12 form-group">
+                                            <label>Address</label>
+                                            <input type="text" name="address" value="{{ old('address') }}" class="form-control" maxlength="60" autocomplete autofocus>
+                                            @error('address')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
@@ -85,6 +112,23 @@ Add New Admin
                                             @enderror
                                         </div>
                                         <div class="col-xl-6 col-lg-6 col-12 form-group">
+                                            <label>Profile Photo</label>
+                                            <div class="image-upload" style="margin: 2px 0 12px;">
+                                                <input type="file" class="form-control" accept="image/*" name="profile_image" value="{{ old('profile_image') }}" id="imgInp">
+                                            </div>
+                                            <div class="profile-contentimg d-none">
+                                                <img src="" id="blah" style="max-width: 25%;">
+                                                <span class="d-none">
+                                                    <a class="btn btn-sm btn-danger" id="remove-product-img">Remove</a>
+                                                </span>
+                                            </div>
+                                            @error('profile_image')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        <div class="col-xl-6 col-lg-6 col-12 form-group">
                                             <label>Job Title</label>
                                             <input type="text" name="job_title" value="{{ old('job_title') }}" class="form-control" maxlength="30" autocomplete autofocus>
                                             @error('job_title')
@@ -94,45 +138,39 @@ Add New Admin
                                             @enderror
                                         </div>
                                         <div class="col-xl-6 col-lg-6 col-12 form-group">
-                                            <label>Email</label>
-                                            <input type="email" name="email" value="{{ old('email') }}" class="form-control" maxlength="30" autocomplete autofocus>
-                                            @error('email')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-                                        <div class="col-xl-6 col-lg-6 col-12 form-group">
-                                            <label>Phone</label>
-                                            <input type="text" name="phone" id="phone" value="{{ old('phone') }}" class="form-control" maxlength="14" placeholder="000-000-000-000" pattern="[0-9]{4}[0-9]{3}[0-9]{3}" autofocus>
-                                            @error('phone')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-                                        <div class="col-xl-6 col-lg-6 col-12 form-group">
-                                            <label>Address</label>
-                                            <input type="text" name="address" value="{{ old('address') }}" class="form-control" maxlength="60" autocomplete autofocus>
-                                            @error('address')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-                                        <div class="col-xl-6 col-lg-6 col-12 form-group">
-                                            <label>Profile Photo</label>
-                                            <input type="file" name="profile_image" class="form-control" accept="image/*" autofocus>
-                                            @error('profile_image')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-                                        <div class="col-xl-6 col-lg-6 col-12 form-group">
                                             <label>User Name <span class="required">*</span></label>
                                             <input type="text" name="user_name" value="{{ old('user_name') }}" class="form-control" maxlength="30" required autocomplete autofocus>
                                             @error('user_name')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        <div class="col-xl-6 col-lg-6 col-12 form-group">
+                                            <label>System Role <span class="required">*</span></label>
+                                            <select class="select2" name="role" required>
+                                                @if(old('role'))
+                                                    @if(!$roles->isEmpty())
+                                                        @foreach($roles as $role)
+                                                            @if(old('role') == $role->name)
+                                                                <option value="{{ $role->name }}" selected>{{ $role->name }}</option>
+                                                            @else
+                                                                <option value="{{ $role->name }}">{{ $role->name }}</option>
+                                                            @endif   
+                                                        @endforeach
+                                                    @endif
+                                                @else
+                                                    @if(!$roles->isEmpty())
+                                                        <option value="">Select Role</option>
+                                                        @foreach($roles as $role)
+                                                            <option value="{{ $role->name }}">{{ $role->name }}</option>
+                                                        @endforeach
+                                                    @else
+                                                        <option value="">No Role Found</option>
+                                                    @endif
+                                                @endif
+                                            </select>
+                                            @error('role')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
@@ -173,6 +211,39 @@ Add New Admin
                     }
                 }
             });
+        });
+        // Allow phone numbers only
+        $("#phone").on("input", function() {
+          var inputValue = $(this).val();
+          var numbersOnly = inputValue.replace(/[^0-9]/g, '');
+          $(this).val(numbersOnly);
+        });
+
+        // Preview selected image
+        $("#imgInp").on('change', function() {
+            var input = this;
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $('#blah').attr('src', e.target.result).show();
+                    $(".profile-contentimg").removeClass("d-none");
+                    $(".profile-contentimg span").removeClass("d-none");
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        });
+
+        // Remove selected image
+        $("#remove-product-img").click(function(e) {
+            e.preventDefault();
+
+            $('#blah').attr("src", "").hide();
+            $(".profile-contentimg").addClass("d-none");
+            $(".profile-contentimg span").addClass("d-none");
+            $('#imgInp').val("");
         });
     </script>
 @endsection('js')

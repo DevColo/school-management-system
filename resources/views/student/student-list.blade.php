@@ -138,12 +138,12 @@ Student List
               ]
              });
         });
-        function activateUser(user_id) {
+        function activateStudent(studentDetailId) {
           var token = $('meta[name="csrf-token"]').attr('content');
           swal(
               {
                 title: "Activate?",
-                text: "Confirm you want to activate this user",
+                text: "Confirm you want to activate this student",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonClass: "btn-success",
@@ -157,19 +157,19 @@ Student List
                 if (isConfirm) {
                   $.ajax({
                       type: 'POST',
-                      url:  "/activate-user",
-                      data: {_token:token,user_id: user_id},
+                      url:  "/activate-student",
+                      data: {_token:token,studentDetailId: studentDetailId},
                       success: function(data) {
                         var parsedJson = jQuery.parseJSON(data);
                         if (typeof parsedJson.msg != 'undefined' && parsedJson.msg == 'unauthorized') {
-                          swal("Cancelled", "You're unauthorized to activate this user", "error");
+                          swal("Cancelled", "You're unauthorized to activate this student", "error");
                         }else if(typeof parsedJson.msg != 'undefined' && parsedJson.msg == 'error'){
-                          swal("Cancelled", "The user was not activated, Contact the System Admin", "error");
+                          swal("Cancelled", "The student was not activated, Contact the System Admin", "error");
                         }else if(typeof parsedJson.msg != 'undefined' && parsedJson.msg == 'success'){
                           swal(
                             {
                               title: "Activated",
-                              text: "The user has been activated successfully.",
+                              text: "The student has been activated successfully.",
                               type: "success",
                             },
                             function(isOk) {
@@ -182,19 +182,19 @@ Student List
                       }
                   });
                 } else {
-                  swal("Cancelled", "The user was not activated, Contact the System Admin", "error");
+                  swal("Cancelled", "The student was not activated, Contact the System Admin", "error");
                 }
               }
           );
       }
 
-      // deactivate user
-      function deactivateUser(user_id) {
+      // deactivate student
+      function deactivateStudent(studentDetailId) {
         var token = $('meta[name="csrf-token"]').attr('content');
           swal(
               {
                 title: "Deactivate?",
-                text: "Confirm you want to deactivate this user",
+                text: "Confirm you want to deactivate this student",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonClass: "btn-danger",
@@ -208,19 +208,19 @@ Student List
                 if (isConfirm) {
                   $.ajax({
                       type: 'POST',
-                      url:  "/deactivate-user",
-                      data: {_token:token,user_id: user_id},
+                      url:  "/deactivate-student",
+                      data: {_token:token,studentDetailId: studentDetailId},
                       success: function(data) {
                         var parsedJson = jQuery.parseJSON(data);
                         if (typeof parsedJson.msg != 'undefined' && parsedJson.msg == 'unauthorized') {
-                          swal("Cancelled", "You're unauthorized to deactivate this user", "error");
+                          swal("Cancelled", "You're unauthorized to deactivate this student", "error");
                         }else if(typeof parsedJson.msg != 'undefined' && parsedJson.msg == 'error'){
-                          swal("Cancelled", "The user was not deactivated, Contact the System Admin", "error");
+                          swal("Cancelled", "The student was not deactivated, Contact the System Admin", "error");
                         }else if(typeof parsedJson.msg != 'undefined' && parsedJson.msg == 'success'){
                           swal(
                             {
                               title: "Deactivated",
-                              text: "The user has been deactivated successfully.",
+                              text: "The student has been deactivated successfully.",
                               type: "success",
                             },
                             function(isOk) {
@@ -233,7 +233,7 @@ Student List
                       }
                   });
                 } else {
-                  swal("Cancelled", "The user was not deactivated, Contact the System Admin", "error");
+                  swal("Cancelled", "The student was not deactivated, Contact the System Admin", "error");
                 }
               }
           );

@@ -80,8 +80,8 @@ Add Student
                                     @enderror
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
-                                    <label>Date Of Birth <span class="required">*</span></label>
-                                    <input type="text" name="dob" value="{{ old('dob') }}" placeholder="dd/mm/yyyy" class="form-control air-datepicker" data-position='bottom right' required>
+                                    <label>Date Of Birth <span class="required"></span></label>
+                                    <input type="text" name="dob" value="{{ old('dob') }}" placeholder="dd/mm/yyyy" class="form-control air-datepicker" data-position='bottom right'>
                                     <i class="far fa-calendar-alt"></i>
                                     @error('dob')
                                         <span class="invalid-feedback" role="alert">
@@ -100,7 +100,7 @@ Add Student
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
                                     <label>Nationality </label>
-                                    <select class="select2" name="nationality" required>
+                                    <select class="select2" name="nationality">
                                         <option value="{{old('nationality')}}">@if(old('nationality')){{old('nationality')}}@else {{'Select Nationality'}}@endif</option>
                                         <option value="Afghan">Afghan</option>
                                         <option value="Albanian">Albanian</option>
@@ -202,7 +202,7 @@ Add Student
                                         <option value="Lao">Lao</option>
                                         <option value="Latvian">Latvian</option>
                                         <option value="Lebanese">Lebanese</option>
-                                        <option value="Liberian">Liberian</option>
+                                        <option value="Liberian" selected>Liberian</option>
                                         <option value="Libyan">Libyan</option>
                                         <option value="Liechtensteiner">Liechtensteiner</option>
                                         <option value="Lithuanian">Lithuanian</option>
@@ -381,7 +381,7 @@ Add Student
                                             <input type="file" class="form-control-file" accept="image/*" name="student_photo" value="{{ old('student_photo') }}" id="imgInp">
                                         </div>
                                         <div class="profile-contentimg">
-                                            <img src="" id="blah" style="max-width: 25%;">
+                                            <img src="" id="blah" style="max-width: 10%;">
                                             <span class="d-none">
                                                 <a class="btn btn-sm btn-danger" id="remove-product-img">Remove</a>
                                             </span>
@@ -393,10 +393,6 @@ Add Student
                                         @endif
                                     </div>
                                 </div>
-                            </div>
-                            <br>
-                            <div class="">
-                                <p class="text-left">Emergency Contact Person</p>
                             </div>
                             <div class="row">
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
@@ -436,8 +432,8 @@ Add Student
                                     @enderror
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
-                                    <label>Emergency Contact Person relationship <span class="required">*</span></label>
-                                    <input type="text" name="emergency_contact_relationship" value="{{ old('emergency_contact_relationship') }}" class="form-control" maxlength="30" placeholder="Enter person relationship" required>
+                                    <label>Emergency Contact Person relationship <span class="required"></span></label>
+                                    <input type="text" name="emergency_contact_relationship" value="{{ old('emergency_contact_relationship') }}" class="form-control" maxlength="30" placeholder="Enter person relationship">
                                     @error('emergency_contact_relationship')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -445,30 +441,28 @@ Add Student
                                     @enderror
                                 </div>
                             </div>
-                            <br>
-                            <div class=""></div>
-                            <div class="row">
+                            <div class="row" style="margin-top:12px;">
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
-                                    <label>Class Assignment</label>
-                                    <select class="select2" name="class" id="class">
-                                        @if(old('class'))
-                                            @if(!$classes->isEmpty())
-                                                @foreach($classes as $class)
-                                                    @if(old('class') == $class->id)
-                                                        <option value="{{ $class->id }}" selected>{{ $class->class }}</option>
+                                    <label>College Assignment <span class="required">*</span></label>
+                                    <select class="select2" name="college" id="college" required>
+                                        @if(old('college'))
+                                            @if(!$colleges->isEmpty())
+                                                @foreach($colleges as $college)
+                                                    @if(old('college') == $college->id)
+                                                        <option value="{{ $college->id }}" selected>{{ $college->college_name }}</option>
                                                     @else
-                                                        <option value="{{ $class->id }}">{{ $class->class_name }}</option>
+                                                        <option value="{{ $college->id }}">{{ $college->college_name }}</option>
                                                     @endif   
                                                 @endforeach
                                             @endif
                                         @else
-                                            @if(!$classes->isEmpty())
-                                                <option value="">Select Class</option>
-                                                @foreach($classes as $class)
-                                                    <option value="{{ $class->id }}">{{ $class->class_name }}</option>
+                                            @if(!$colleges->isEmpty())
+                                                <option value="">Select college</option>
+                                                @foreach($colleges as $college)
+                                                    <option value="{{ $college->id }}">{{ $college->college_name }}</option>
                                                 @endforeach
                                             @else
-                                                <option value="">No Class Found</option>
+                                                <option value="">No college Found</option>
                                             @endif
                                         @endif
                                     </select>
@@ -480,8 +474,19 @@ Add Student
                                     <label for="status" style="margin-top:10px;"><input type="checkbox" id="status" class="pt-2" name="status" checked> Active</label>
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
+                                    <label>Student Major <span class="required">*</span></label>
+                                    <select class="select2" name="major" id="major" required>
+                                        <option value="">Select Major</option>
+                                    </select>
+                                    @error('major')
+                                      <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                      </span>
+                                    @enderror
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-12 form-group">
                                     <label>Academic Year <span class="required year" style="display:none;">*</span></label>
-                                    <select class="select2" name="year" id="year">
+                                    <select class="select2" name="year" id="year" required>
                                         @if(old('year'))
                                             @if(!$years->isEmpty())
                                                 @foreach($years as $year)
@@ -556,6 +561,34 @@ Add Student
                   $('span.year').css('display', 'none');
                 }
             });
+
+            // Get Majors
+            $("select#college").change(function () {
+            var college_id = $(this).val();
+            $('#major').find('option').not(':first').remove();
+            $.ajax({
+                url: "{{ URL::to('/get-majors') }}/"+college_id,
+                type: 'GET',
+                dataType: 'json',
+                success:function (response) {
+                    var len = 0;
+                    if (response.data != null) {
+                        len = response.data.length;
+                    }
+
+                    if (len>0) {
+                        for (var i = 0; i<len; i++) {
+                            var id = response.data[i].value;
+                            var name = response.data[i].name;
+
+                            var option = "<option value='"+id+"'>"+name+"</option>"; 
+
+                            $("#major").append(option);
+                        }
+                    }
+                }
+            });
+        });
         });
     </script>
 @endsection('js')

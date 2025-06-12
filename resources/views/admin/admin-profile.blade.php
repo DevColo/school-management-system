@@ -61,14 +61,24 @@ User Profile
                                                           @hasrole('admin')
                                                             Admin
                                                           @endrole
-                                                          @hasrole('librarian')
-                                                            Librarian
+                                                          @hasrole('lecturer')
+                                                            Lecturer
+                                                          @endrole
+                                                          @hasrole('registrar')
+                                                            Registrar
+                                                          @endrole
+                                                          @hasrole('accountant')
+                                                            Accountant
                                                           @endrole
                                                       </td>
                                                     </tr>
                                                     <tr>
                                                         <td>First Name:</td>
                                                         <td class="font-medium text-dark-medium">{{ $user_detail[0]->first_name ?? '' }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Other Name:</td>
+                                                        <td class="font-medium text-dark-medium">{{ $user_detail[0]->other_name ?? '' }}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Last Name:</td>

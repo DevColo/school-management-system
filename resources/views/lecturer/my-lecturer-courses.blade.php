@@ -1,6 +1,6 @@
 @extends('layouts.backend-layout')
 @section('title')
-Class List
+My Lecturer Courses
 @endsection('title')
 @section('css')
     <!-- Select 2 CSS -->
@@ -18,39 +18,31 @@ Class List
             <!-- Sidebar Area End Here -->
             <div class="list-content">
                 <!-- Breadcubs Area Start Here -->
+                <div style="display: flex; justify-content: space-between">
                 <div class="breadcrumbs-area">
-                    <h3>Class</h3>
+                    <h3>Course</h3>
                     <ul>
                         <li>
                             <a href="{{ route('home') }}">Home</a>
                         </li>
-                        <li>Class List</li>
+                        <li>My Lecturer Courses</li>
                     </ul>
+                </div>
                 </div>
                 <!-- Breadcubs Area End Here -->
                 <!-- Teacher Table Area Start Here -->
                 <div class="card height-auto">
                     <div class="card-body">
-                        <div class="heading-layout1">
-                            <div style="display: flex;" class="">
-                              <a class="dropdown-item" href="#"  title="Excel"><i
-                                class="fa fa-table text-orange-red" aria-hidden="true" ></i></a>
-                                
-                                <a class="dropdown-item" href="#" title="Print"><i
-                                  class="fa fa-print text-green" aria-hidden="true" ></i></a>
-
-                            </div>
-                           
-                        </div>
                         <div class="table-responsive">
-                            <table class="table display data-table text-nowrap" id="class_table">
+                            <table class="table display data-table text-nowrap" id="course_table">
                                 <thead>
                                     <tr>
                                         <th><label class="">ID</label></th>
-                                        <th>Class Name</th>
-                                        <th>Create By</th>
-                                        <th>Created On</th>
-                                        <th>Updated On</th>
+                                        <th>Course</th>
+                                        <th>College</th>
+                                        <th>Academic Year</th>
+                                        <th>Semester</th>
+                                        <th>Enrolled Students</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -74,7 +66,7 @@ Class List
 
     <script type="text/javascript">
         $(document).ready(function(){
-          let table =  new DataTable('#class_table',{
+          let table =  new DataTable('#course_table',{
               paging: true,
               searching: true,
               info: true,
@@ -87,10 +79,10 @@ Class List
               processing: true,
               serverSide: true,
               language: {
-                searchPlaceholder: "Find by Class name"
+                searchPlaceholder: "Find Course"
               },
               ajax:{
-               url: "{{ URL::to('/class-list') }}",
+               url: "{{ URL::to('/my-lecturer-courses') }}",
               },
               columns:[
                {
@@ -98,20 +90,24 @@ Class List
                 name: 'id'
                },
                {
-                data: 'class_name',
-                name: 'class_name'
+                data: 'course',
+                name: 'course'
                },
                {
-                data: 'username',
-                name: 'username'
+                data: 'college',
+                name: 'college'
                },
                {
-                data: 'created',
-                name: 'created',
+                data: 'year',
+                name: 'year'
                },
                {
-                data: 'updated',
-                name: 'updated'
+                data: 'semester',
+                name: 'semester'
+               },
+               {
+                data: 'enrolled_students',
+                name: 'enrolled_students'
                },
                {
                 data: 'status',
@@ -140,12 +136,12 @@ Class List
                 }
             }
         });
-        function activateClass(class_id) {
+        function activateSubject(subject_id) {
           var token = $('meta[name="csrf-token"]').attr('content');
           swal(
               {
                 title: "Activate?",
-                text: "Confirm you want to activate this class",
+                text: "Confirm you want to activate this subject",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonClass: "btn-success",
@@ -159,19 +155,19 @@ Class List
                 if (isConfirm) {
                   $.ajax({
                       type: 'POST',
-                      url:  "/activate-class",
-                      data: {_token:token,class_id: class_id},
+                      url:  "/activate-subject",
+                      data: {_token:token,subject_id: subject_id},
                       success: function(data) {
                         var parsedJson = jQuery.parseJSON(data);
                         if (typeof parsedJson.msg != 'undefined' && parsedJson.msg == 'unauthorized') {
-                          swal("Cancelled", "You're unauthorized to activate this class", "error");
+                          swal("Cancelled", "You're unauthorized to activate this subject", "error");
                         }else if(typeof parsedJson.msg != 'undefined' && parsedJson.msg == 'error'){
-                          swal("Cancelled", "The class was not activated, Contact the System Admin", "error");
+                          swal("Cancelled", "The subject was not activated, Contact the System Admin", "error");
                         }else if(typeof parsedJson.msg != 'undefined' && parsedJson.msg == 'success'){
                           swal(
                             {
                               title: "Activated",
-                              text: "The class has been activated successfully.",
+                              text: "The subject has been activated successfully.",
                               type: "success",
                             },
                             function(isOk) {
@@ -184,19 +180,19 @@ Class List
                       }
                   });
                 } else {
-                  swal("Cancelled", "The class was not activated, Contact the System Admin", "error");
+                  swal("Cancelled", "The subject was not activated, Contact the System Admin", "error");
                 }
               }
           );
       }
 
-      // deactivate class
-      function deactivateClass(class_id) {
+      // deactivate subject
+      function deactivateSubject(subject_id) {
         var token = $('meta[name="csrf-token"]').attr('content');
           swal(
               {
                 title: "Deactivate?",
-                text: "Confirm you want to deactivate this class",
+                text: "Confirm you want to deactivate this subject",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonClass: "btn-danger",
@@ -210,19 +206,19 @@ Class List
                 if (isConfirm) {
                   $.ajax({
                       type: 'POST',
-                      url:  "/deactivate-class",
-                      data: {_token:token,class_id: class_id},
+                      url:  "/deactivate-subject",
+                      data: {_token:token,subject_id: subject_id},
                       success: function(data) {
                         var parsedJson = jQuery.parseJSON(data);
                         if (typeof parsedJson.msg != 'undefined' && parsedJson.msg == 'unauthorized') {
-                          swal("Cancelled", "You're unauthorized to deactivate this class", "error");
+                          swal("Cancelled", "You're unauthorized to deactivate this subject", "error");
                         }else if(typeof parsedJson.msg != 'undefined' && parsedJson.msg == 'error'){
-                          swal("Cancelled", "The class was not deactivated, Contact the System Admin", "error");
+                          swal("Cancelled", "The subject was not deactivated, Contact the System Admin", "error");
                         }else if(typeof parsedJson.msg != 'undefined' && parsedJson.msg == 'success'){
                           swal(
                             {
                               title: "Deactivated",
-                              text: "The class has been deactivated successfully.",
+                              text: "The subject has been deactivated successfully.",
                               type: "success",
                             },
                             function(isOk) {
@@ -235,7 +231,7 @@ Class List
                       }
                   });
                 } else {
-                  swal("Cancelled", "The class was not deactivated, Contact the System Admin", "error");
+                  swal("Cancelled", "The subject was not deactivated, Contact the System Admin", "error");
                 }
               }
           );

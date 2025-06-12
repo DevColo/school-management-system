@@ -4,11 +4,11 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Skoology | Login</title>
+    <title>Projal University College | Login</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('img/rkps.jpg') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('img/logo.png') }}">
     <!-- Normalize CSS -->
     <link rel="stylesheet" href="{{ asset('css/normalize.css') }}">
     <!-- Main CSS -->
@@ -37,7 +37,7 @@
         <div class="login-page-content">
             <div class="login-box">
                 <div class="item-logo">
-                    <img width="100px" height="100px" src="{{ asset('img/rkps.png') }}" alt="logo">
+                    <img width="100px" height="100px" src="{{ asset('img/logo.png') }}" alt="logo">
                 </div>
                 <form method="POST" action="{{ route('login') }}" class="login-form">
                     @csrf
@@ -67,7 +67,7 @@
                            <!--  <input type="checkbox" class="form-check-input" id="remember-me" name="remember" {{ old('remember') ? 'checked' : '' }}>
                             <label for="remember-me" class="form-check-label">Remember Me</label> -->
                         </div>
-                        <a href="#"  data-toggle="modal" data-target="#forget-password" class="forgot-btn ">Forgot Password?</a>
+                        <a href="{{ route('password.request') }}" class="forgot-btn ">Forgot Password?</a>
                     </div>
                     <div class="form-group">
                         <button type="submit" class="login-btn">Login</button>
@@ -76,12 +76,10 @@
                
           
             </div>   
-            
-         
-
-         
-
-          
+            <div class="item-logo">
+                <h6 style="text-align: center;margin-bottom: 0;color: #feff65;margin-top: 12px;font-size: 12px;">Powered by</h6>
+                <a href="https://sms.druptech.com" target="_blank" title="Druptech SMS"><img width="135px" height="122px" style="display: flex; margin: auto;" src="{{ asset('img/druptech-sms-white.png') }}" alt="Druptech SMS"></a>
+            </div>
         </div>
             
         

@@ -32,11 +32,11 @@ Add Period
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
                                     <label>Semester <span class="required">*</span></label>
                                     <select class="select2" name="semester" required>
-                                        <option value="{{ $period->Semester->id }}">{{ $period->Semester->AcademicYear->year }} Sem.{{ $period->Semester->semester }}</option>
+                                        <option value="{{ $period->Semester->id }}">{{ $period->Semester->AcademicYear->year }} {{ $period->Semester->semester }}</option>
                                         @if(!$semesters->isEmpty())
                                             @foreach($semesters as $semester)
                                                 @if($period->Semester->id != $semester->id)
-                                                    <option value="{{ $semester->id }}">{{ $semester->AcademicYear->year }} Sem.{{ $semester->semester }}</option>
+                                                    <option value="{{ $semester->id }}">{{ $semester->AcademicYear->year }} {{ $semester->semester }}</option>
                                                 @endif
                                                     
                                             @endforeach
@@ -52,7 +52,7 @@ Add Period
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-12 form-group">
                                     <label>Period <span class="required">*</span></label>
-                                    <input type="number" name="period" value="{{ $period->period }}" class="form-control" maxlength="30" placeholder="Enter Period" required autocomplete autofocus>
+                                    <input type="text" name="period" value="{{ $period->period }}" class="form-control" maxlength="30" placeholder="Enter Period" required autocomplete autofocus>
                                     @error('period')
                                       <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
